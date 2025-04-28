@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PerplexityService>();
+builder.Services.AddScoped<OpenAIService>();
 
 var app = builder.Build();
 

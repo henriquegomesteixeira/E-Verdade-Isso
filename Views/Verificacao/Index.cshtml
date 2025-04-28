@@ -1,19 +1,163 @@
-﻿@{
+﻿@model List<System.ServiceModel.Syndication.SyndicationItem>
+
+@{
     ViewData["Title"] = "Verificação de Notícia";
+    var perguntas = ViewBag.Perguntas as List<string>;
+    var dica = ViewBag.Dica as string;
+    var icones = new[] { "volleyball", "scale", "coins", "heart-pulse", "cpu" };
+    var explicacaoHtml = ViewBag.ExplicacaoHtml as string ?? "";
+    var referenciasHtml = ViewBag.ReferenciasHtml as string ?? "";
 }
 
-<h1 class="text-2xl font-bold mb-4">Verificar Notícia</h1>
+<div class="">
+    @if (!string.IsNullOrWhiteSpace(explicacaoHtml) || !string.IsNullOrWhiteSpace(referenciasHtml))
+    {
+        <div class="mt-20 mx-2">
+            <div class="flex justify-end mb-4">
+                <div class="bg-primary-light text-text-primary p-4 rounded-xl max-w-xl">
+                    @ViewBag.Enviado
+                </div>
+            </div>
 
-<form method="post" class="space-y-4">
-    <textarea name="texto" rows="5" class="w-full border p-2 rounded" placeholder="Cole aqui o texto ou link da notícia"></textarea>
-    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded">Verificar</button>
-</form>
+            <div class="flex flex-col gap-4">
+                <!-- Badge de classificação -->
+                @if (ViewBag.Classificacao == "Informação verdadeira")
+                {
+                    <span class="flex items-center w-fit gap-4 text-green-800 text-2xl font-bold">
+                        <i data-lucide="circle-check-big" class="w-[3rem] h-[3rem] text-white p-2 bg-false rounded-md"></i>
+                        @ViewBag.Classificacao
+                    </span>
+                }
+                else if (ViewBag.Classificacao == "Informação falsa")
+                {
+                    <span class="flex items-center w-fit gap-4 text-red-800 text-2xl font-bold">
+                        <i data-lucide="triangle-alert" class="w-[3rem] h-[3rem] text-white p-2 bg-false rounded-md"></i>
+                        @ViewBag.Classificacao
+                    </span>
+                }
+                else if (ViewBag.Classificacao == "Informação duvidosa")
+                {
+                    <span class="flex items-center w-fit gap-4 text-yellow-700 text-2xl font-bold">
+                        <i data-lucide="circle-alert" class="w-[3rem] h-[3rem] text-white p-2 bg-warning rounded-md"></i>
+                        @ViewBag.Classificacao
+                    </span>
+                }
 
-@if (ViewBag.Resultado != null)
-{
-    <div class="mt-6 p-4 bg-gray-100 rounded shadow prose max-w-none">
-        <h2 class="font-semibold mb-2">Resultado:</h2>
-        @Html.Raw(ViewBag.Resultado)
-    </div>
-}
+                <!-- Explicação -->
+                @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
+                {
+                    <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
+                        @Html.Raw(explicacaoHtml)
+                    </div>
+                }
+
+                <!-- Referências -->
+                @if (!string.IsNullOrWhiteSpace(referenciasHtml))
+                {
+                    <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
+                        @Html.Raw(referenciasHtml)
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @if (@ViewBag.Enviado != null)
+    {
+        <div class="fixed bottom-2 right-2 left-2 z-50">
+            <form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
+                <textarea id="autoResizeTextarea"
+                          name="texto"
+                          rows="1"
+                          class="w-full overflow-hidden resize-none min-h-7 max-h-52 outline-none"
+                          placeholder="Cole aqui o texto ou link da notícia..."></textarea>
+                <div class="flex justify-between items-center">
+                    <button class="flex items-center gap-2 bg-[#e0f3eb] text-primary px-3 py-1.5 rounded-lg border border-[#9ec9bc] hover:bg-primary-light">
+                        <i data-lucide="circle-help" class="w-5 h-5"></i>
+                        <span class="font-medium text-sm">Como funciona?</span>
+                    </button>
+
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
+                            <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
+                        </button>
+                        <button type="submit" class="flex justify-center items-center bg-primary text-white p-2 rounded-lg hover:opacity-85">
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    } else {
+        <div class="flex flex-col justify-center min-h-screen gap-4">
+            <h1 class="font-poppins font-medium text-3xl text-primary">O que você quer saber?</h1>
+            <form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
+                <textarea id="autoResizeTextarea"
+                            name="texto"
+                            rows="1"
+                            class="w-full overflow-hidden resize-none min-h-11 max-h-52 outline-none"
+                            placeholder="Cole aqui o texto ou link da notícia..."></textarea>
+                <div class="flex justify-between items-center">
+                    <button class="flex items-center gap-2 bg-[#e0f3eb] text-primary px-3 py-1.5 rounded-lg border border-[#9ec9bc] hover:bg-primary-light">
+                        <i data-lucide="circle-help" class="w-5 h-5"></i>
+                        <span class="font-medium text-sm">Como funciona?</span>
+                    </button>
+
+                    <div class="flex items-center gap-2">
+                        <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
+                            <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
+                        </button>
+                        <button type="submit" class="flex justify-center items-center bg-primary text-white p-2 rounded-lg hover:opacity-85">
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            @if (!string.IsNullOrWhiteSpace(dica))
+            {
+                <div class="w-full flex items-center border border-gray-300 text-gray-800 text-xs p-2 rounded-lg">
+                    <i data-lucide="shield-alert" class="w-24 inline-block text-primary mr-2"></i>
+                    <p class="text-gray-dark">@dica</p>
+                </div>
+            }
+
+            @if (perguntas != null && perguntas.Any())
+            {
+                <ul class="flex flex-wrap gap-2 justify-center">
+                    @for (int i = 0; i < perguntas.Count && i < icones.Length; i++)
+                    {
+                        var pergunta = perguntas[i];
+                        var icone = icones[i];
+
+                        <li>
+                            <form method="post" class="inline-block">
+                                <input type="hidden" name="texto" value="@pergunta" />
+                                <button type="submit" class="flex items-center gap-2 hover:bg-gray-100 hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-gray-dark text-sm">
+                                    <i data-lucide="@icone" class="w-4 h-4"></i> @pergunta
+                                </button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    const textarea = document.getElementById('autoResizeTextarea');
+
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 208) + 'px';
+    });
+
+    textarea.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            this.closest('form').submit();
+        }
+    });
+</script>
+
 

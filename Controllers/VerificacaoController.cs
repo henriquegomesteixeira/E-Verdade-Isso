@@ -7,23 +7,34 @@ namespace everdadeisso.Controllers
     public class VerificacaoController : Controller
     {
         private readonly PerplexityService _perplexity;
+        private readonly OpenAIService _openai;
 
-        public VerificacaoController(PerplexityService perplexity)
+        public VerificacaoController(PerplexityService perplexity, OpenAIService openai)
         {
             _perplexity = perplexity;
+            _openai = openai;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var (perguntas, dica) = await _openai.GerarSugestoesEDicasAsync();
+
+            ViewBag.Perguntas = perguntas;
+            ViewBag.Dica = dica;
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(string texto)
         {
-            var resultado = await _perplexity.VerificarNoticiaAsync(texto);
-            var html = Markdown.ToHtml(resultado);
-            ViewBag.Resultado = html;
+            (string classificacao, string explicacaoHtml, string referenciasHtml) = await _perplexity.VerificarNoticiaAsync(texto);
+
+            ViewBag.Enviado = texto;
+            ViewBag.Classificacao = classificacao;
+            ViewBag.ExplicacaoHtml = explicacaoHtml;
+            ViewBag.ReferenciasHtml = referenciasHtml;
+
             return View();
         }
     }

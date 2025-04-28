@@ -2,7 +2,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="bg-yellow-400 p-6 rounded shadow text-center">
-    <h1 class="text-3xl font-bold text-white">Tailwind Funcionando!</h1>
+<div class="mx-6">
+    <h1 class="font-poppins font-semibold text-5xl mt-10">
+        É <span class="inline-block border-b-5 border-green-700">VERDADE</span>
+        <br />
+        ISSO?
+    </h1>
+    <p class="text-gray-500">
+        Usamos tecnologia para analisar a informação e consultar fontes confiáveis. 
+        Em poucos segundos, mostramos se a notícia é verdadeira, falsa ou duvidosa, 
+        de forma simples e direta.
+    </p>
+
+    <div class="bg-black p-1 rounded-lg mt-5">
+        <h3 class="text-white px-3 pb-2 pt-1">É verdade isso?</h3>
+        <form method="post" class="bg-white rounded-xl">
+            <textarea name="texto" rows="5" class="w-full p-5 rounded-xl" placeholder="Cole aqui o texto ou link da notícia"></textarea>
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded">Verificar</button>
+        </form>
+    </div>
 </div>
 
