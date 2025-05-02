@@ -28,50 +28,28 @@ namespace everdadeisso.Service
                 messages = new[]
                 {
                     new {
+                        role = "system",
+                        content = "Você é um assistente que ajuda usuários a verificar se uma informação é verdadeira, falsa ou duvidosa."
+                    },
+                    new {
                         role = "user",
                         content = $"""
-                        Hoje é {DateTime.Now:dd/MM/yyyy}. Use esta data como referência ao verificar informações.
-                        
-                        Você é um sistema que ajuda usuários comuns da internet a descobrirem se uma informação é verdadeira, falsa ou duvidosa.
+                        Responda exatamente neste formato:
 
-                        Atenção:  
-                        - NÃO escreva introduções, pensamentos ou raciocínios (não use <think> nem explique seu raciocínio).  
-                        - NÃO justifique antes de responder.  
-                        - NÃO descreva o processo de análise.  
-                        
-                        1. Comece diretamente com uma destas palavras exatas:
-                        - Informação verdadeira  
-                        - Informação falsa  
-                        - Informação duvidosa
+                        Informação verdadeira (ou Informação falsa / Informação duvidosa)
 
-                        2. Em seguida, escreva obrigatoriamente o título:
-                        **Explicação**
+                        **Explicação**  
+                        (Aqui vai a explicação clara e objetiva)
 
-                        3. Depois, escreva uma explicação clara e objetiva em português, como se estivesse explicando para alguém que não entende muito de tecnologia ou notícias.
+                        **Referências**  
+                        (Liste os links usados e uma frase curta explicando o que cada link comprova)
+                        Cada item deve conter:  
+                        - O link real e completo (ex: https://...)  
+                        - Uma frase objetiva dizendo o que ele comprova
 
-                        4. Depois da explicação, obrigatoriamente escreva o título:
-                        **Referências**
+                        Não inclua apenas nomes de sites ou resumos sem o link. Cada item deve ter link + explicação.
 
-                        5. Em seguida, liste os links reais (URLs) usados como fonte.
-
-                        Para cada link:
-                        - Apresente o link completo e clicável (ex: https://...).
-                        - Explique de forma clara e específica qual informação ele confirma ou desmente sobre o tema analisado.
-                        - NÃO escreva descrições genéricas (ex: "artigo sobre eleições").
-                        - A descrição deve deixar claro por que essa fonte comprova ou desmente a informação investigada.
-
-                        Atenção:
-                        - NÃO inicie os links diretamente sem antes escrever "**Referências**".  
-                        - O título "**Referências**" deve aparecer separado da explicação.
-
-                        IMPORTANTE:
-                        - Utilize apenas fontes confiáveis e renomadas como:
-                          - Sites de notícias de grande circulação (G1, Estadão, BBC, CNN Brasil, Agência Brasil, UOL, Folha de S.Paulo, etc).
-                          - Fontes oficiais do governo (gov.br, tse.jus.br, agenciabrasil.ebc.com.br).
-                          - Portais de checagem de fatos reconhecidos (Aos Fatos, Lupa, Estadão Verifica, AFP Checamos).
-                        - NÃO use blogs, sites genéricos, tutoriais técnicos, fóruns ou páginas de dicas de internet.
-
-                        Agora, verifique o seguinte conteúdo:  
+                        Conteúdo:  
                         \"\"\"  
                         {texto}
                         \"\"\"
