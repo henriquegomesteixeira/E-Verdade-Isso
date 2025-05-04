@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Text;
 using Markdig;
+using everdadeisso.Models;
+using HtmlAgilityPack;
 
 namespace everdadeisso.Service
 {
@@ -16,7 +18,7 @@ namespace everdadeisso.Service
             _http = new HttpClient();
         }
 
-        public async Task<(string classificacao, string explicacaoHtml, string referenciasHtml)> VerificarNoticiaAsync(string texto)
+        public async Task<(string classificacao, string explicacaoHtml, List<Referencia> referencias)> VerificarNoticiaAsync(string texto)
         {
             var apiKey = _config["Perplexity:ApiKey"];
             _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
@@ -42,12 +44,12 @@ namespace everdadeisso.Service
                         (Aqui vai a explicação clara e objetiva)
 
                         **Referências**  
-                        (Liste os links usados e uma frase curta explicando o que cada link comprova)
-                        Cada item deve conter:  
-                        - O link real e completo (ex: https://...)  
-                        - Uma frase objetiva dizendo o que ele comprova
+                        Liste os links usados no seguinte formato exato, tudo na mesma linha:
 
-                        Não inclua apenas nomes de sites ou resumos sem o link. Cada item deve ter link + explicação.
+                        - https://exemplo.com/link1 :: Título da notícia :: O que esse link comprova  
+                        - https://exemplo.com/link2 :: Título da notícia :: O que esse link comprova
+
+                        Não adicione títulos adicionais, quebras de linha, nem asteriscos. Use apenas o traço (-), seguido do link, seguido de "::", seguido do título, seguido de "::", seguido da explicação. Tudo deve estar na mesma linha.
 
                         Conteúdo:  
                         \"\"\"  
@@ -65,14 +67,14 @@ namespace everdadeisso.Service
             var response = await _http.PostAsync("https://api.perplexity.ai/chat/completions", content);
 
             if (!response.IsSuccessStatusCode)
-                return ("Erro", "<p>Erro ao consultar a Perplexity.</p>", "");
+                return ("Erro", "<p>Erro ao consultar a Perplexity.</p>", null);
 
             var resposta = await response.Content.ReadAsStringAsync();
             using var doc = JsonDocument.Parse(resposta);
 
             // Acessa o conteúdo gerado pela IA, que fica em: choices[0].message.content
             var mensagem = doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
-            if (mensagem == null) return ("Erro", "<p>Nenhuma resposta encontrada.</p>", "");
+            if (mensagem == null) return ("Erro", "<p>Nenhuma resposta encontrada.</p>", null);
 
             var (classificacao, markdownSemClassificacao) = ExtrairRespostaDireta(mensagem);
             
@@ -107,9 +109,9 @@ namespace everdadeisso.Service
             referenciasMarkdown = RemoverMarcacoesDeReferencia(referenciasMarkdown);
 
             var explicacaoHtml = ConverterMarkdownParaHtml(explicacaoMarkdown);
-            var referenciasHtml = ConverterMarkdownParaHtml(referenciasMarkdown);
+            var referenciasExtraidas = ExtrairReferenciasEstruturadas(referenciasMarkdown);
 
-            return (classificacao, explicacaoHtml, referenciasHtml);
+            return (classificacao, explicacaoHtml, referenciasExtraidas);
         }
 
         private string ConverterMarkdownParaHtml(string markdown)
@@ -151,5 +153,37 @@ namespace everdadeisso.Service
                 ""
             );
         }
+
+        private List<Referencia> ExtrairReferenciasEstruturadas(string markdown)
+        {
+            var lista = new List<Referencia>();
+
+            var linhas = markdown
+                .Split('\n')
+                .Select(l => l.Trim())
+                .Where(l => l.StartsWith("- ") && l.Contains("::"))
+                .ToList();
+
+            foreach (var linha in linhas)
+            {
+                var conteudo = linha.Substring(2);
+                var partes = conteudo.Split("::", 3, StringSplitOptions.TrimEntries);
+
+                if (partes.Length < 3 || !Uri.TryCreate(partes[0], UriKind.Absolute, out var uri))
+                    continue;
+
+                lista.Add(new Referencia
+                {
+                    Url = partes[0],
+                    Dominio = uri.Host,
+                    NomeExibicao = uri.Host.Replace("www.", ""),
+                    Titulo = partes[1],
+                    Descricao = partes[2].TrimEnd('.')
+                });
+            }
+
+            return lista;
+        }
+
     }
 }

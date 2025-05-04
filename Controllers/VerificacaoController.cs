@@ -1,6 +1,7 @@
 ﻿using everdadeisso.Service;
 using Microsoft.AspNetCore.Mvc;
 using Markdig;
+using everdadeisso.Models;
 
 namespace everdadeisso.Controllers
 {
@@ -28,12 +29,12 @@ namespace everdadeisso.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string texto)
         {
-            (string classificacao, string explicacaoHtml, string referenciasHtml) = await _perplexity.VerificarNoticiaAsync(texto);
+            (string classificacao, string explicacaoHtml, List<Referencia> referencias) = await _perplexity.VerificarNoticiaAsync(texto);
 
             ViewBag.Enviado = texto;
             ViewBag.Classificacao = classificacao;
             ViewBag.ExplicacaoHtml = explicacaoHtml;
-            ViewBag.ReferenciasHtml = referenciasHtml;
+            ViewBag.Referencias = referencias;
 
             return View();
         }

@@ -6,15 +6,15 @@
     var dica = ViewBag.Dica as string;
     var icones = new[] { "volleyball", "scale", "coins", "heart-pulse", "cpu" };
     var explicacaoHtml = ViewBag.ExplicacaoHtml as string ?? "";
-    var referenciasHtml = ViewBag.ReferenciasHtml as string ?? "";
+    var referencias = ViewBag.Referencias as List<Referencia>;
 }
 
 <div>
-    @if (!string.IsNullOrWhiteSpace(explicacaoHtml) || !string.IsNullOrWhiteSpace(referenciasHtml))
+    @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
     {
         <div class="mt-20 mb-28">
-            <div class="flex justify-end mb-4">
-                <div class="bg-primary-light text-text-primary py-2 px-4 rounded-xl max-w-xl">
+            <div class="flex mb-4 pb-3 w-full border-b border-gray-200">
+                <div class="text-text-primary font-semibold text-lg rounded-xl w-full">
                     @ViewBag.Enviado
                 </div>
             </div>
@@ -23,25 +23,33 @@
                 <!-- Badge de classificação -->
                 @if (ViewBag.Classificacao == "Informação verdadeira")
                 {
-                    <span class="flex items-center w-fit gap-4 text-green-800 text-xl font-bold">
-                        <i data-lucide="circle-check-big" class="w-[3rem] h-[3rem] text-white p-2 bg-true rounded-md"></i>
-                        @ViewBag.Classificacao
-                    </span>
+                    <div class="flex items-center gap-3 rounded-xl w-fit">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
+                            <i data-lucide="circle-check" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
+                    </div>
                 }
                 else if (ViewBag.Classificacao == "Informação falsa")
                 {
-                    <span class="flex items-center w-fit gap-4 text-red-800 text-xl font-bold">
-                        <i data-lucide="triangle-alert" class="w-[3rem] h-[3rem] text-white p-2 bg-false rounded-md"></i>
-                        @ViewBag.Classificacao
-                    </span>
+                    <div class="flex items-center gap-3 rounded-xl w-fit">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
+                            <i data-lucide="x-octagon" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-red-700 font-semibold text-lg">Informação falsa</p>
+                    </div>
                 }
                 else if (ViewBag.Classificacao == "Informação duvidosa")
                 {
-                    <span class="flex items-center w-fit gap-4 text-yellow-700 text-xl font-bold">
-                        <i data-lucide="circle-alert" class="w-[3rem] h-[3rem] text-white p-2 bg-warning rounded-md"></i>
-                        @ViewBag.Classificacao
-                    </span>
+                    <div class="flex items-center gap-3 rounded-xl w-fit">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
+                            <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
+                    </div>
                 }
+
+
 
                 <!-- Explicação -->
                 @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
@@ -52,11 +60,27 @@
                 }
 
                 <!-- Referências -->
-                @if (!string.IsNullOrWhiteSpace(referenciasHtml))
+                @if (referencias != null && referencias.Any())
                 {
-                    <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
-                        @Html.Raw(referenciasHtml)
-                    </div>
+                    foreach (var referencia in referencias)
+                    {
+                        <a href="@referencia.Url" target="_blank" rel="noopener noreferrer"
+                           class="group bg-white border border-gray-200 p-3 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 block">
+
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="@referencia.FaviconUrl" class="w-4 h-4 mt-px rounded-full border" />
+                                <span class="text-xs text-gray-500 group-hover:text-gray-700">@referencia.NomeExibicao</span>
+                            </div>
+
+                            <h3 class="text-sm font-medium text-gray-800 group-hover:underline group-hover:text-gray-900 line-clamp-2">
+                                @referencia.Titulo
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-1 group-hover:text-gray-800 leading-snug line-clamp-2">
+                                @referencia.Descricao
+                            </p>
+                        </a>
+                    }
                 }
             </div>
         </div>
