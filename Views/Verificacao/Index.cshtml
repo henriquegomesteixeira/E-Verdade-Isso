@@ -14,9 +14,21 @@
     {
         <div class="mt-20 mb-28">
             <div class="flex mb-4 pb-3 w-full border-b border-gray-200">
-                <div class="text-text-primary font-semibold text-lg rounded-xl w-full">
-                    @ViewBag.Enviado
-                </div>
+                @if (Uri.IsWellFormedUriString(ViewBag.Enviado as string, UriKind.Absolute))
+                {
+                    <a href="@ViewBag.Enviado"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-4 px-3 py-2 rounded-lg bg-[#e0f3eb] border border-[#9ec9bc] text-sm text-primary transition-all break-all">
+                        <span class="line-clamp-1 hover:underline">@ViewBag.Enviado</span>
+                    </a>
+                }
+                else
+                {
+                    <div class="text-text-primary font-semibold text-lg rounded-xl w-full break-words">
+                        @ViewBag.Enviado
+                    </div>
+                }
             </div>
 
             <div class="flex flex-col gap-4">
@@ -90,23 +102,46 @@
     {
         <div class="fixed bottom-0 right-0 w-full px-2 pb-2 z-50 bg-gradient-to-t from-white via-white/90 to-transparent">
             <form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3 shadow-sm ring-1 ring-gray-100">
-                <textarea id="autoResizeTextarea"
-                          name="texto"
-                          rows="1"
-                          class="w-full overflow-hidden resize-none min-h-7 max-h-52 outline-none"
-                          placeholder="Pergunte qualquer coisa..."></textarea>
-                <div class="flex justify-between items-center">
-                    <button class="flex items-center gap-2 bg-[#e0f3eb] text-primary px-3 py-1.5 rounded-lg border border-[#9ec9bc] hover:bg-primary-light">
-                        <i data-lucide="circle-help" class="w-5 h-5"></i>
-                        <span class="font-medium text-sm">Como funciona?</span>
-                    </button>
+                <div id="inputArea" class="mb-3">
+                    <textarea id="autoResizeTextarea"
+                              name="texto"
+                              rows="1"
+                              class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+                              placeholder="Pergunte qualquer coisa..."></textarea>
+                </div>
 
+                <div class="flex justify-between items-center">
+                    <!-- Toggle -->
+                    <div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
+                        <!-- Fundo deslizante animado -->
+                        <div id="slider"
+                             class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
+
+
+                        <!-- Botões -->
+                        <button type="button" id="toggleTextBtn"
+                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            Texto
+                        </button>
+
+                        <button type="button" id="toggleUrlBtn"
+                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
+                            <i data-lucide="link" class="w-4 h-4"></i>
+                            URL
+                        </button>
+                    </div>
+
+                    <!-- Ações -->
                     <div class="flex items-center gap-2">
                         <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
                             <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
                         </button>
-                        <button type="submit" class="flex justify-center items-center bg-primary text-white p-2 rounded-lg hover:opacity-85">
-                            <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                        <button type="submit"
+                                class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
+                                    disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-85"
+                                disabled>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
@@ -116,27 +151,52 @@
         <div class="flex flex-col justify-center min-h-screen gap-4">
             <h1 class="font-poppins font-medium text-3xl text-primary">O que você quer saber?</h1>
             <form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
-                <textarea id="autoResizeTextarea"
-                            name="texto"
-                            rows="1"
-                            class="w-full overflow-hidden resize-none min-h-11 max-h-52 outline-none"
-                            placeholder="Pergunte qualquer coisa..."></textarea>
-                <div class="flex justify-between items-center">
-                    <button class="flex items-center gap-2 bg-[#e0f3eb] text-primary px-3 py-1.5 rounded-lg border border-[#9ec9bc] hover:bg-primary-light">
-                        <i data-lucide="circle-help" class="w-5 h-5"></i>
-                        <span class="font-medium text-sm">Como funciona?</span>
-                    </button>
+                <!-- Campo dinâmico: muda entre textarea ou input -->
+                <div id="inputArea" class="mb-3">
+                    <textarea id="autoResizeTextarea"
+                              name="texto"
+                              rows="1"
+                              class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+                              placeholder="Pergunte qualquer coisa..."></textarea>
+                </div>
 
+                <div class="flex justify-between items-center">
+                    <!-- Toggle -->
+                    <div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
+                        <!-- Fundo deslizante animado -->
+                        <div id="slider"
+                             class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
+
+
+                        <!-- Botões -->
+                        <button type="button" id="toggleTextBtn"
+                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            Texto
+                        </button>
+
+                        <button type="button" id="toggleUrlBtn"
+                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
+                            <i data-lucide="link" class="w-4 h-4"></i>
+                            URL
+                        </button>
+                    </div>
+
+                    <!-- Ações -->
                     <div class="flex items-center gap-2">
                         <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
                             <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
                         </button>
-                        <button type="submit" class="flex justify-center items-center bg-primary text-white p-2 rounded-lg hover:opacity-85">
+                        <button type="submit"
+                                class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
+                                    disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-85"
+                                disabled>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
             </form>
+
             @if (!string.IsNullOrWhiteSpace(dica))
             {
                 <div class="w-full flex items-center border border-gray-300 text-gray-800 text-xs p-2 rounded-lg">
@@ -169,18 +229,144 @@
 </div>
 
 <script>
-    const textarea = document.getElementById('autoResizeTextarea');
+    const newTextarea = document.getElementById('autoResizeTextarea');
+    if (newTextarea) {
+        newTextarea.addEventListener('input', () => {
+            newTextarea.style.height = 'auto';
+            newTextarea.style.height = Math.min(newTextarea.scrollHeight, 208) + 'px';
+        });
+    }
 
-    textarea.addEventListener('input', () => {
-        textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 208) + 'px';
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            const target = event.target;
+            if (target.tagName === "TEXTAREA" && target.name === "texto") {
+                const valor = target.value.trim();
+                if (valor === "") {
+                    event.preventDefault(); // bloqueia o envio
+                    return;
+                }
+
+                event.preventDefault(); // evita quebra de linha
+                target.closest("form")?.submit(); // envia somente se tem valor
+            }
+        }
     });
 
-    textarea.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-            this.closest('form').submit();
+    const toggleTextBtn = document.getElementById("toggleTextBtn");
+    const toggleUrlBtn = document.getElementById("toggleUrlBtn");
+    const inputArea = document.getElementById("inputArea");
+    const slider = document.getElementById("slider");
+
+    // Função para ativar botão de texto
+    toggleTextBtn.addEventListener("click", () => {
+      // Visual toggle
+      toggleTextBtn.classList.add("z-10");
+      toggleTextBtn.classList.remove("opacity-60");
+      toggleUrlBtn.classList.remove("z-10");
+      toggleUrlBtn.classList.add("opacity-60");
+
+      // Animação slider
+      slider.style.left = "2.5px";
+      slider.style.width = "95px";
+
+      // Troca de conteúdo
+      inputArea.innerHTML = `
+        <textarea id="autoResizeTextarea"
+                name="texto"
+                rows="1"
+                class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+                placeholder="Pergunte qualquer coisa..."></textarea>
+      `;
+    });
+
+    // Função para ativar botão de URL
+    toggleUrlBtn.addEventListener("click", () => {
+      // Visual toggle
+      toggleUrlBtn.classList.add("z-10");
+      toggleUrlBtn.classList.remove("opacity-60");
+      toggleTextBtn.classList.remove("z-10");
+      toggleTextBtn.classList.add("opacity-60");
+
+      // Animação slider
+      slider.style.left = "calc(100% - 80px)";
+      slider.style.width = "78px";
+
+      // Troca de conteúdo
+      inputArea.innerHTML = `
+        <input type="url"
+               name="texto"
+               class="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-none focus:border-[#9ec9bc] transition-all focus:text-text-primary"
+               placeholder="Cole aqui o link para análise" />
+      `;
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+            const target = event.target;
+            if (target.tagName === "INPUT" && target.name === "url") {
+                const valor = target.value.trim();
+                if (valor === "") {
+                    event.preventDefault();
+                }
+            }
         }
+    });
+
+    function atualizarBotaoEnvio() {
+        const form = document.querySelector('form:not(.inline-block)');
+        const botaoEnviar = form?.querySelector('button[type="submit"]');
+
+        // Procura qualquer input ou textarea com name="texto"
+        const campoTexto = form?.querySelector('[name="texto"]');
+        const valor = campoTexto?.value.trim() ?? "";
+
+        if (botaoEnviar) {
+            botaoEnviar.disabled = valor === "";
+            botaoEnviar.classList.toggle('opacity-50', botaoEnviar.disabled);
+            botaoEnviar.classList.toggle('cursor-not-allowed', botaoEnviar.disabled);
+        }
+    }
+
+
+    // Inicial
+    atualizarBotaoEnvio();
+
+    // Monitor global para mudanças nos campos (funciona com dinâmicos)
+    document.addEventListener('input', atualizarBotaoEnvio);
+    document.addEventListener('change', atualizarBotaoEnvio);
+
+    // Após troca para modo texto, reaplica o listener de resize + atualização de botão
+    toggleTextBtn.addEventListener("click", () => {
+        inputArea.innerHTML = `
+          <textarea id="autoResizeTextarea"
+                    name="texto"
+                    rows="1"
+                    class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+                    placeholder="Pergunte qualquer coisa..."></textarea>
+        `;
+
+        const newTextarea = document.getElementById('autoResizeTextarea');
+        if (newTextarea) {
+            newTextarea.addEventListener('input', () => {
+                newTextarea.style.height = 'auto';
+                newTextarea.style.height = Math.min(newTextarea.scrollHeight, 208) + 'px';
+            });
+        }
+
+        atualizarBotaoEnvio();
+    });
+
+    // Após troca para modo URL, reaplica monitoramento
+    toggleUrlBtn.addEventListener("click", () => {
+        inputArea.innerHTML = `
+          <input type="url"
+                 name="texto"
+                 class="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-none focus:border-[#9ec9bc] transition-all focus:text-text-primary"
+                 placeholder="Cole aqui o link para análise" />
+        `;
+
+        atualizarBotaoEnvio();
     });
 </script>
 
