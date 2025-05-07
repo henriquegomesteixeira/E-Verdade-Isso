@@ -1,8 +1,16 @@
-﻿<header class="fixed right-0 left-0 top-0 bg-white shadow-md p-4 flex justify-between ">
-    <div class="text-xl font-bold text-green-800 flex items-center gap-2">
-        logo
+﻿<header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <div class="mx-auto w-full max-w-4xl px-4 py-3 flex items-center justify-between">
+        <!-- Somente logo -->
+        <a href="/" class="hover:opacity-90 transition">
+            <img src="~/img/Logo.png" alt="Logo" class="w-9 h-9" />
+        </a>
+
+        <!-- Navegação -->
+        <nav class="flex items-center gap-4 text-sm font-medium text-gray-700">
+            <a href="/" class="hover:text-primary transition">Início</a>
+            <a href="/verificar" class="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90 transition shadow-sm">
+                Verificar
+            </a>
+        </nav>
     </div>
-    <button class="text-3xl text-gray-700">
-        &#9776;
-    </button>
 </header>

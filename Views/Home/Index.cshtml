@@ -2,24 +2,81 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="mx-6">
-    <h1 class="font-poppins font-semibold text-5xl mt-10">
-        É <span class="inline-block border-b-5 border-green-700">VERDADE</span>
-        <br />
-        ISSO?
-    </h1>
-    <p class="text-gray-500">
-        Usamos tecnologia para analisar a informação e consultar fontes confiáveis. 
-        Em poucos segundos, mostramos se a notícia é verdadeira, falsa ou duvidosa, 
-        de forma simples e direta.
-    </p>
+<div class="bg-white text-gray-800 min-h-screen flex flex-col justify-between">
 
-    <div class="bg-black p-1 rounded-lg mt-5">
-        <h3 class="text-white px-3 pb-2 pt-1">É verdade isso?</h3>
-        <form method="post" class="bg-white rounded-xl">
-            <textarea name="texto" rows="5" class="w-full p-5 rounded-xl" placeholder="Cole aqui o texto ou link da notícia"></textarea>
-            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded">Verificar</button>
-        </form>
-    </div>
+    <!-- Hero -->
+    <section class="bg-[#f6fbf9] px-6 pt-24 pb-16 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-4">
+            É <span class="text-primary border-b-4 border-green-700">VERDADE</span> ISSO?
+        </h1>
+        <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600">
+            Descubra se uma notícia ou link é <strong class="text-primary">verdadeiro, falso ou duvidoso</strong> com base em fontes confiáveis.
+        </p>
+        <div class="mt-8">
+            <a href="/verificar" class="bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium">
+                Verificar uma notícia agora
+            </a>
+        </div>
+    </section>
+
+    <!-- Como funciona -->
+    <section class="py-16 px-6 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-primary mb-12">Como funciona?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Bloco 1 -->
+            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
+                <div class="flex justify-center mb-4">
+                    <i data-lucide="brain-cog" class="w-10 h-10 text-primary"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 text-gray-900">Análise com IA</h3>
+                <p class="text-sm text-gray-600">
+                    IA avançada que avalia conteúdos em tempo real e detecta desinformação com base em fontes verificadas.
+                </p>
+            </div>
+
+            <!-- Bloco 2 -->
+            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
+                <div class="flex justify-center mb-4">
+                    <i data-lucide="link" class="w-10 h-10 text-primary"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 text-gray-900">Verificação por link</h3>
+                <p class="text-sm text-gray-600">
+                    Basta colar um link e a plataforma confere se o conteúdo é confiável, com explicações claras e acessíveis.
+                </p>
+            </div>
+
+            <!-- Bloco 3 -->
+            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
+                <div class="flex justify-center mb-4">
+                    <i data-lucide="book-open-text" class="w-10 h-10 text-primary"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2 text-gray-900">Fontes confiáveis</h3>
+                <p class="text-sm text-gray-600">
+                    Exibimos as fontes usadas em cada verificação: jornais reconhecidos, agências de checagem e dados públicos.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- CTA final -->
+    <section class="bg-[#e0f3eb] py-12 px-6 text-center">
+        <h2 class="text-2xl md:text-3xl font-semibold text-primary mb-4">Antes de compartilhar, verifique.</h2>
+        <p class="text-gray-700 max-w-2xl mx-auto mb-6">
+            Combata fake news com responsabilidade. Nosso sistema ajuda você a conferir a veracidade com apenas 1 clique.
+        </p>
+        <a href="/verificar" class="bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium">
+            Começar agora
+        </a>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="text-center py-6 text-xs text-gray-500">
+        © @DateTime.Now.Year É Verdade Isso? • Projeto educativo contra fake news
+    </footer>
 </div>
+
+
 

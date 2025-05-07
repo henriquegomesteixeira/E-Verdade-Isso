@@ -5,12 +5,12 @@ using everdadeisso.Models;
 
 namespace everdadeisso.Controllers
 {
-    public class VerificacaoController : Controller
+    public class VerificarController : Controller
     {
         private readonly PerplexityService _perplexity;
         private readonly OpenAIService _openai;
 
-        public VerificacaoController(PerplexityService perplexity, OpenAIService openai)
+        public VerificarController(PerplexityService perplexity, OpenAIService openai)
         {
             _perplexity = perplexity;
             _openai = openai;
