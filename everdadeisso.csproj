@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>405db553-f45f-4886-864d-e221c6ee9450</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
     <PackageReference Include="Markdig" Version="0.40.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.4" />
   </ItemGroup>
 
