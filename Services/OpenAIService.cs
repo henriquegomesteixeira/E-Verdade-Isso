@@ -14,7 +14,7 @@ public class OpenAIService
 
     public async Task<(List<string> Perguntas, string Dica)> GerarSugestoesEDicasAsync()
     {
-        var apiKey = _config["OpenAI:ApiKey"];
+        var apiKey = _config["OPENAI_API_KEY"];
         _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
 
         var body = new

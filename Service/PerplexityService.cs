@@ -20,7 +20,7 @@ namespace everdadeisso.Service
 
         public async Task<(string classificacao, string explicacaoHtml, List<Referencia> referencias)> VerificarNoticiaAsync(string texto)
         {
-            var apiKey = _config["Perplexity:ApiKey"];
+            var apiKey = _config["PERPLEXITY_API_KEY"];
             _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
             // Prepara o corpo (JSON) da requisição conforme o padrão exigido pela Perplexity
