@@ -10,93 +10,99 @@
 }
 
 <div class="mx-auto w-full max-w-4xl px-4">
-    @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
-    {
-        <div class="mt-20 mb-28">
-            <div class="flex mb-4 pb-3 w-full border-b border-gray-200">
-                @if (Uri.IsWellFormedUriString(ViewBag.Enviado as string, UriKind.Absolute))
-                {
-                    <a href="@ViewBag.Enviado"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="inline-flex items-center gap-4 px-3 py-2 rounded-lg bg-[#e0f3eb] border border-[#9ec9bc] text-sm text-primary transition-all break-all">
-                        <span class="line-clamp-1 hover:underline">@ViewBag.Enviado</span>
-                    </a>
-                }
-                else
-                {
-                    <div class="text-text-primary font-semibold text-lg rounded-xl w-full break-words">
-                        @ViewBag.Enviado
-                    </div>
-                }
-            </div>
+    <div id="loaderOverlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+    </div>
 
-            <div class="flex flex-col gap-4">
-                <!-- Badge de classificação -->
-                @if (ViewBag.Classificacao == "Informação verdadeira")
-                {
-                    <div class="flex items-center gap-3 rounded-xl w-fit">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
-                            <i data-lucide="circle-check" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
-                    </div>
-                }
-                else if (ViewBag.Classificacao == "Informação falsa")
-                {
-                    <div class="flex items-center gap-3 rounded-xl w-fit">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
-                            <i data-lucide="x-octagon" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-red-700 font-semibold text-lg">Informação falsa</p>
-                    </div>
-                }
-                else if (ViewBag.Classificacao == "Informação duvidosa")
-                {
-                    <div class="flex items-center gap-3 rounded-xl w-fit">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
-                            <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-                        </div>
-                        <p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
-                    </div>
-                }
-
-
-
-                <!-- Explicação -->
-                @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
-                {
-                    <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
-                        @Html.Raw(explicacaoHtml)
-                    </div>
-                }
-
-                <!-- Referências -->
-                @if (referencias != null && referencias.Any())
-                {
-                    foreach (var referencia in referencias)
+    <div id="conteudoPrincipal">
+        @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
+        {
+            <div class="mt-20 mb-28">
+                <div class="flex mb-4 pb-3 w-full border-b border-gray-200">
+                    @if (Uri.IsWellFormedUriString(ViewBag.Enviado as string, UriKind.Absolute))
                     {
-                        <a href="@referencia.Url" target="_blank" rel="noopener noreferrer"
-                           class="group bg-white border border-gray-200 p-3 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 block">
-
-                            <div class="flex items-center gap-2 mb-2">
-                                <img src="@referencia.FaviconUrl" class="w-4 h-4 mt-px rounded-full border" />
-                                <span class="text-xs text-gray-500 group-hover:text-gray-700">@referencia.NomeExibicao</span>
-                            </div>
-
-                            <h3 class="text-sm font-medium text-gray-800 group-hover:underline group-hover:text-gray-900 line-clamp-2">
-                                @referencia.Titulo
-                            </h3>
-
-                            <p class="text-sm text-gray-600 mt-1 group-hover:text-gray-800 leading-snug line-clamp-2">
-                                @referencia.Descricao
-                            </p>
+                        <a href="@ViewBag.Enviado"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="inline-flex items-center gap-4 px-3 py-2 rounded-lg bg-[#e0f3eb] border border-[#9ec9bc] text-sm text-primary transition-all break-all">
+                            <span class="line-clamp-1 hover:underline">@ViewBag.Enviado</span>
                         </a>
                     }
-                }
+                    else
+                    {
+                        <div class="text-text-primary font-semibold text-lg rounded-xl w-full break-words">
+                            @ViewBag.Enviado
+                        </div>
+                    }
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <!-- Badge de classificação -->
+                    @if (ViewBag.Classificacao == "Informação verdadeira")
+                    {
+                        <div class="flex items-center gap-3 rounded-xl w-fit">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
+                                <i data-lucide="circle-check" class="w-6 h-6"></i>
+                            </div>
+                            <p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
+                        </div>
+                    }
+                    else if (ViewBag.Classificacao == "Informação falsa")
+                    {
+                        <div class="flex items-center gap-3 rounded-xl w-fit">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
+                                <i data-lucide="x-octagon" class="w-6 h-6"></i>
+                            </div>
+                            <p class="text-red-700 font-semibold text-lg">Informação falsa</p>
+                        </div>
+                    }
+                    else if (ViewBag.Classificacao == "Informação duvidosa")
+                    {
+                        <div class="flex items-center gap-3 rounded-xl w-fit">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
+                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                            <p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
+                        </div>
+                    }
+
+
+
+                    <!-- Explicação -->
+                    @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
+                    {
+                        <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
+                            @Html.Raw(explicacaoHtml)
+                        </div>
+                    }
+
+                    <!-- Referências -->
+                    @if (referencias != null && referencias.Any())
+                    {
+                        foreach (var referencia in referencias)
+                        {
+                            <a href="@referencia.Url" target="_blank" rel="noopener noreferrer"
+                               class="group bg-white border border-gray-200 p-3 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 block">
+
+                                <div class="flex items-center gap-2 mb-2">
+                                    <img src="@referencia.FaviconUrl" class="w-4 h-4 mt-px rounded-full border" />
+                                    <span class="text-xs text-gray-500 group-hover:text-gray-700">@referencia.NomeExibicao</span>
+                                </div>
+
+                                <h3 class="text-sm font-medium text-gray-800 group-hover:underline group-hover:text-gray-900 line-clamp-2">
+                                    @referencia.Titulo
+                                </h3>
+
+                                <p class="text-sm text-gray-600 mt-1 group-hover:text-gray-800 leading-snug line-clamp-2">
+                                    @referencia.Descricao
+                                </p>
+                            </a>
+                        }
+                    }
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 
     @if (@ViewBag.Enviado != null)
     {
@@ -250,6 +256,8 @@
                 }
 
                 event.preventDefault(); // evita quebra de linha
+                document.getElementById("loaderOverlay")?.classList.remove("hidden");
+                document.getElementById("conteudoPrincipal")?.classList.add("hidden");
                 target.closest("form")?.submit(); // envia somente se tem valor
             }
         }
