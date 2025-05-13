@@ -5,9 +5,9 @@
 <div class="bg-white text-gray-800 min-h-screen flex flex-col justify-between">
 
     <!-- Hero -->
-    <section class="bg-[#f6fbf9] px-6 pt-24 pb-16 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 mb-4">
-            É <span class="text-primary border-b-4 border-green-700">VERDADE</span> ISSO?
+    <section class="bg-[#f6fbf9] px-6 pt-24 pb-16 text-center mt-20">
+        <h1 class="text-4xl md:text-5xl font-semibold leading-tight text-gray-900 mb-4">
+            É <span class="border-b-4 border-green-700">VERDADE</span> ISSO?
         </h1>
         <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600">
             Descubra se uma notícia ou link é <strong class="text-primary">verdadeiro, falso ou duvidoso</strong> com base em fontes confiáveis.
@@ -73,9 +73,63 @@
     </section>
 
     <!-- Rodapé -->
-    <footer class="text-center py-6 text-xs text-gray-500">
-        © @DateTime.Now.Year É Verdade Isso? • Projeto educativo contra fake news
+    <footer class="bg-primary text-white mt-24 border-t border-secondary">
+        <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+            <!-- Marca e descrição -->
+            <div>
+                <div class="flex items-center gap-2 mb-3">
+                    <img src="~/img/Logo.png" alt="Logo" class="w-7 h-7">
+                    <span class="font-semibold text-lg">É Verdade Isso?</span>
+                </div>
+                <p class="text-sm leading-relaxed text-primary-light">
+                    Plataforma gratuita que usa IA para verificar fatos em tempo real. Criada para combater fake news com transparência e fontes confiáveis.
+                </p>
+            </div>
+
+            <!-- Navegação -->
+            <div>
+                <h3 class="text-sm font-semibold mb-3">Navegação</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>
+                        <a href="/" class="text-primary-light hover:text-white hover:underline transition">Início</a>
+                    </li>
+                    <li>
+                        <a href="/verificar" class="text-primary-light hover:text-white hover:underline transition">Verificar notícia</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/henriquegomesteixeira/everdadeisso" target="_blank" class="text-primary-light hover:text-white hover:underline transition">Repositório GitHub</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contato -->
+            <div>
+                <h3 class="text-sm font-semibold mb-3">Contato</h3>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="github" class="w-4 h-4 text-primary-light"></i>
+                        <a href="https://github.com/henriquegomesteixeira/everdadeisso" target="_blank" class="text-primary-light hover:text-white hover:underline transition">GitHub</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="linkedin" class="w-4 h-4 text-primary-light"></i>
+                        <a href="https://www.linkedin.com/in/henriquegomesteixeira/" target="_blank" class="text-primary-light hover:text-white hover:underline transition">LinkedIn</a>
+                    </li>
+                </ul>
+
+                <p class="text-xs text-primary-light mt-6 flex items-center gap-2">
+                    <span class="inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-primary-light" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.477 2 2 6.478 2 12s4.477 10 10 10 10-4.478 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm.09-5.846c-.94 0-1.654-.407-2.048-1.178l-1.515.872C9.264 15.906 10.57 16.5 12.09 16.5c2.06 0 3.506-1.394 3.506-3.486s-1.446-3.486-3.506-3.486c-1.52 0-2.826.594-3.563 1.152l1.515.872c.393-.771 1.107-1.178 2.048-1.178 1.106 0 1.91.718 1.91 1.64 0 .922-.804 1.64-1.91 1.64z" />
+                        </svg>
+                    </span>
+                    <span>@(DateTime.Now.Year) Henrique Gomes Teixeira. Todos os direitos reservados.</span>
+                </p>
+            </div>
+
+        </div>
     </footer>
+
 </div>
 
 
