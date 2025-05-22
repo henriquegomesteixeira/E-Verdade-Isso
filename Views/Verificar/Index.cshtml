@@ -1,388 +1,92 @@
 ﻿@model List<System.ServiceModel.Syndication.SyndicationItem>
 
 @{
-    ViewData["Title"] = "Verificação de Notícia";
-    var perguntas = ViewBag.Perguntas as List<string>;
-    var dica = ViewBag.Dica as string;
-    var icones = new[] { "volleyball", "scale", "coins", "heart-pulse", "cpu" };
-    var explicacaoHtml = ViewBag.ExplicacaoHtml as string ?? "";
-    var referencias = ViewBag.Referencias as List<Referencia>;
+	ViewData["Title"] = "Verificação de Notícia";
+	var perguntas = ViewBag.Perguntas as List<string>;
+	var dica = ViewBag.Dica as string;
+	var icones = new[] { "volleyball", "scale", "coins", "heart-pulse", "cpu" };
 }
 
 <div class="mx-auto w-full max-w-4xl px-4">
-    <div id="loaderOverlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-        <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
-    </div>
+	<div class="flex flex-col justify-center min-h-screen gap-4">
+		<h1 class="font-poppins font-medium text-3xl text-primary">O que você quer saber?</h1>
+		<form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
+			<!-- Campo dinâmico: muda entre textarea ou input -->
+			<div id="inputArea" class="mb-3">
+				<textarea id="autoResizeTextarea"
+						  name="texto"
+						  rows="1"
+						  class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+						  placeholder="Pergunte qualquer coisa..."></textarea>
+			</div>
 
-    <div id="conteudoPrincipal">
-        @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
-        {
-            <div class="mt-20 mb-28">
-                <div class="flex mb-4 pb-3 w-full border-b border-gray-200">
-                    @if (Uri.IsWellFormedUriString(ViewBag.Enviado as string, UriKind.Absolute))
-                    {
-                        <a href="@ViewBag.Enviado"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="inline-flex items-center gap-4 px-3 py-2 rounded-lg bg-[#e0f3eb] border border-[#9ec9bc] text-sm text-primary transition-all break-all">
-                            <span class="line-clamp-1 hover:underline">@ViewBag.Enviado</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <div class="text-text-primary font-semibold text-lg rounded-xl w-full break-words">
-                            @ViewBag.Enviado
-                        </div>
-                    }
-                </div>
-
-                <div class="flex flex-col gap-4">
-                    <!-- Badge de classificação -->
-                    @if (ViewBag.Classificacao == "Informação verdadeira")
-                    {
-                        <div class="flex items-center gap-3 rounded-xl w-fit">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
-                                <i data-lucide="circle-check" class="w-6 h-6"></i>
-                            </div>
-                            <p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
-                        </div>
-                    }
-                    else if (ViewBag.Classificacao == "Informação falsa")
-                    {
-                        <div class="flex items-center gap-3 rounded-xl w-fit">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
-                                <i data-lucide="x-octagon" class="w-6 h-6"></i>
-                            </div>
-                            <p class="text-red-700 font-semibold text-lg">Informação falsa</p>
-                        </div>
-                    }
-                    else if (ViewBag.Classificacao == "Informação duvidosa")
-                    {
-                        <div class="flex items-center gap-3 rounded-xl w-fit">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
-                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-                            </div>
-                            <p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
-                        </div>
-                    }
+			<div class="flex justify-between items-center">
+				<!-- Toggle -->
+				<div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
+					<!-- Fundo deslizante animado -->
+					<div id="slider"
+						 class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
 
 
+					<!-- Botões -->
+					<button type="button" id="toggleTextBtn"
+							class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
+						<i data-lucide="file-text" class="w-4 h-4"></i>
+						Texto
+					</button>
 
-                    <!-- Explicação -->
-                    @if (!string.IsNullOrWhiteSpace(explicacaoHtml))
-                    {
-                        <div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
-                            @Html.Raw(explicacaoHtml)
-                        </div>
-                    }
+					<button type="button" id="toggleUrlBtn"
+							class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
+						<i data-lucide="link" class="w-4 h-4"></i>
+						URL
+					</button>
+				</div>
 
-                    <!-- Referências -->
-                    @if (referencias != null && referencias.Any())
-                    {
-                        foreach (var referencia in referencias)
-                        {
-                            <a href="@referencia.Url" target="_blank" rel="noopener noreferrer"
-                               class="group bg-white border border-gray-200 p-3 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 block">
-
-                                <div class="flex items-center gap-2 mb-2">
-                                    <img src="@referencia.FaviconUrl" class="w-4 h-4 mt-px rounded-full border" />
-                                    <span class="text-xs text-gray-500 group-hover:text-gray-700">@referencia.NomeExibicao</span>
-                                </div>
-
-                                <h3 class="text-sm font-medium text-gray-800 group-hover:underline group-hover:text-gray-900 line-clamp-2">
-                                    @referencia.Titulo
-                                </h3>
-
-                                <p class="text-sm text-gray-600 mt-1 group-hover:text-gray-800 leading-snug line-clamp-2">
-                                    @referencia.Descricao
-                                </p>
-                            </a>
-                        }
-                    }
-                </div>
-            </div>
-        }
-    </div>
-
-    @if (@ViewBag.Enviado != null)
-    {
-        <div class="fixed bottom-0 right-0 w-full px-2 pb-2 z-50 bg-gradient-to-t from-white via-white/90 to-transparent">
-            <div class="mx-auto w-full max-w-4xl">
-                <form method="post" onsubmit="mostrarLoader()" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3 shadow-sm ring-1 ring-gray-100">
-                <div id="inputArea" class="mb-3">
-                    <textarea id="autoResizeTextarea"
-                              name="texto"
-                              rows="1"
-                              class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
-                              placeholder="Pergunte qualquer coisa..."></textarea>
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <!-- Toggle -->
-                    <div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
-                        <!-- Fundo deslizante animado -->
-                        <div id="slider"
-                             class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
-
-
-                        <!-- Botões -->
-                        <button type="button" id="toggleTextBtn"
-                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
-                            <i data-lucide="file-text" class="w-4 h-4"></i>
-                            Texto
-                        </button>
-
-                        <button type="button" id="toggleUrlBtn"
-                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
-                            <i data-lucide="link" class="w-4 h-4"></i>
-                            URL
-                        </button>
-                    </div>
-
-                    <!-- Ações -->
-                    <div class="flex items-center gap-2">
-                        <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
-                            <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
-                        </button>
-                        <button type="submit"
-                                class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
+				<!-- Ações -->
+				<div class="flex items-center gap-2">
+					<button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
+						<i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
+					</button>
+					<button type="submit"
+							class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
                                     disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-85"
-                                disabled>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-    } else {
-        <div class="flex flex-col justify-center min-h-screen gap-4">
-            <h1 class="font-poppins font-medium text-3xl text-primary">O que você quer saber?</h1>
-            <form method="post" onsubmit="mostrarLoader()" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
-                <!-- Campo dinâmico: muda entre textarea ou input -->
-                <div id="inputArea" class="mb-3">
-                    <textarea id="autoResizeTextarea"
-                              name="texto"
-                              rows="1"
-                              class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
-                              placeholder="Pergunte qualquer coisa..."></textarea>
-                </div>
+							disabled>
+						<i data-lucide="arrow-right" class="w-4 h-4"></i>
+					</button>
+				</div>
+			</div>
+		</form>
 
-                <div class="flex justify-between items-center">
-                    <!-- Toggle -->
-                    <div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
-                        <!-- Fundo deslizante animado -->
-                        <div id="slider"
-                             class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
+		@if (!string.IsNullOrWhiteSpace(dica))
+		{
+			<div class="w-full flex items-center border border-gray-300 text-gray-800 text-xs p-2 rounded-lg">
+				<i data-lucide="shield-alert" class="w-24 inline-block text-primary mr-2"></i>
+				<p class="text-gray-dark">@dica</p>
+			</div>
+		}
 
+		@if (perguntas != null && perguntas.Any())
+		{
+			<ul class="flex flex-wrap gap-2 justify-center">
+				@for (int i = 0; i < perguntas.Count && i < icones.Length; i++)
+				{
+					var pergunta = perguntas[i];
+					var icone = icones[i];
 
-                        <!-- Botões -->
-                        <button type="button" id="toggleTextBtn"
-                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
-                            <i data-lucide="file-text" class="w-4 h-4"></i>
-                            Texto
-                        </button>
-
-                        <button type="button" id="toggleUrlBtn"
-                                class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
-                            <i data-lucide="link" class="w-4 h-4"></i>
-                            URL
-                        </button>
-                    </div>
-
-                    <!-- Ações -->
-                    <div class="flex items-center gap-2">
-                        <button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
-                            <i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
-                        </button>
-                        <button type="submit"
-                                class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
-                                    disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-85"
-                                disabled>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            @if (!string.IsNullOrWhiteSpace(dica))
-            {
-                <div class="w-full flex items-center border border-gray-300 text-gray-800 text-xs p-2 rounded-lg">
-                    <i data-lucide="shield-alert" class="w-24 inline-block text-primary mr-2"></i>
-                    <p class="text-gray-dark">@dica</p>
-                </div>
-            }
-
-            @if (perguntas != null && perguntas.Any())
-            {
-                <ul class="flex flex-wrap gap-2 justify-center">
-                    @for (int i = 0; i < perguntas.Count && i < icones.Length; i++)
-                    {
-                        var pergunta = perguntas[i];
-                        var icone = icones[i];
-
-                        <li>
-                            <form method="post" class="inline-block">
-                                <input type="hidden" name="texto" value="@pergunta" />
-                                <button type="submit" class="flex items-center gap-2 hover:bg-gray-100 hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-gray-dark text-sm">
-                                    <i data-lucide="@icone" class="w-4 h-4"></i> @pergunta
-                                </button>
-                            </form>
-                        </li>
-                    }
-                </ul>
-            }
-        </div>
-    }
+					<li>
+						<form method="post" class="inline-block">
+							<input type="hidden" name="texto" value="@pergunta" />
+							<button type="submit" class="flex items-center gap-2 hover:bg-gray-100 hover:bg-gray-100 border border-gray-300 px-3 py-1 rounded-full text-gray-dark text-sm">
+								<i data-lucide="@icone" class="w-4 h-4"></i> @pergunta
+							</button>
+						</form>
+					</li>
+				}
+			</ul>
+		}
+	</div>
 </div>
 
-<script>
-    const newTextarea = document.getElementById('autoResizeTextarea');
-    if (newTextarea) {
-        newTextarea.addEventListener('input', () => {
-            newTextarea.style.height = 'auto';
-            newTextarea.style.height = Math.min(newTextarea.scrollHeight, 208) + 'px';
-        });
-    }
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            const target = event.target;
-            if (target.tagName === "TEXTAREA" && target.name === "texto") {
-                const valor = target.value.trim();
-                if (valor === "") {
-                    event.preventDefault(); // bloqueia o envio
-                    return;
-                }
-
-                event.preventDefault(); // evita quebra de linha
-                document.getElementById("loaderOverlay")?.classList.remove("hidden");
-                document.getElementById("conteudoPrincipal")?.classList.add("hidden");
-                target.closest("form")?.submit(); // envia somente se tem valor
-            }
-        }
-    });
-
-    const toggleTextBtn = document.getElementById("toggleTextBtn");
-    const toggleUrlBtn = document.getElementById("toggleUrlBtn");
-    const inputArea = document.getElementById("inputArea");
-    const slider = document.getElementById("slider");
-
-    // Função para ativar botão de texto
-    toggleTextBtn.addEventListener("click", () => {
-      // Visual toggle
-      toggleTextBtn.classList.add("z-10");
-      toggleTextBtn.classList.remove("opacity-60");
-      toggleUrlBtn.classList.remove("z-10");
-      toggleUrlBtn.classList.add("opacity-60");
-
-      // Animação slider
-      slider.style.left = "2.5px";
-      slider.style.width = "95px";
-
-      // Troca de conteúdo
-      inputArea.innerHTML = `
-        <textarea id="autoResizeTextarea"
-                name="texto"
-                rows="1"
-                class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
-                placeholder="Pergunte qualquer coisa..."></textarea>
-      `;
-    });
-
-    // Função para ativar botão de URL
-    toggleUrlBtn.addEventListener("click", () => {
-      // Visual toggle
-      toggleUrlBtn.classList.add("z-10");
-      toggleUrlBtn.classList.remove("opacity-60");
-      toggleTextBtn.classList.remove("z-10");
-      toggleTextBtn.classList.add("opacity-60");
-
-      // Animação slider
-      slider.style.left = "calc(100% - 80px)";
-      slider.style.width = "78px";
-
-      // Troca de conteúdo
-      inputArea.innerHTML = `
-        <input type="url"
-               name="texto"
-               class="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-none focus:border-[#9ec9bc] transition-all focus:text-text-primary"
-               placeholder="Cole aqui o link para análise" />
-      `;
-    });
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" && !event.shiftKey) {
-            const target = event.target;
-            if (target.tagName === "INPUT" && target.name === "url") {
-                const valor = target.value.trim();
-                if (valor === "") {
-                    event.preventDefault();
-                }
-            }
-        }
-    });
-
-    function atualizarBotaoEnvio() {
-        const form = document.querySelector('form:not(.inline-block)');
-        const botaoEnviar = form?.querySelector('button[type="submit"]');
-
-        // Procura qualquer input ou textarea com name="texto"
-        const campoTexto = form?.querySelector('[name="texto"]');
-        const valor = campoTexto?.value.trim() ?? "";
-
-        if (botaoEnviar) {
-            botaoEnviar.disabled = valor === "";
-            botaoEnviar.classList.toggle('opacity-50', botaoEnviar.disabled);
-            botaoEnviar.classList.toggle('cursor-not-allowed', botaoEnviar.disabled);
-        }
-    }
-
-
-    // Inicial
-    atualizarBotaoEnvio();
-
-    // Monitor global para mudanças nos campos (funciona com dinâmicos)
-    document.addEventListener('input', atualizarBotaoEnvio);
-    document.addEventListener('change', atualizarBotaoEnvio);
-
-    // Após troca para modo texto, reaplica o listener de resize + atualização de botão
-    toggleTextBtn.addEventListener("click", () => {
-        inputArea.innerHTML = `
-          <textarea id="autoResizeTextarea"
-                    name="texto"
-                    rows="1"
-                    class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
-                    placeholder="Pergunte qualquer coisa..."></textarea>
-        `;
-
-        const newTextarea = document.getElementById('autoResizeTextarea');
-        if (newTextarea) {
-            newTextarea.addEventListener('input', () => {
-                newTextarea.style.height = 'auto';
-                newTextarea.style.height = Math.min(newTextarea.scrollHeight, 208) + 'px';
-            });
-        }
-
-        atualizarBotaoEnvio();
-    });
-
-    // Após troca para modo URL, reaplica monitoramento
-    toggleUrlBtn.addEventListener("click", () => {
-        inputArea.innerHTML = `
-          <input type="url"
-                 name="texto"
-                 class="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:ring-none focus:border-[#9ec9bc] transition-all focus:text-text-primary"
-                 placeholder="Cole aqui o link para análise" />
-        `;
-
-        atualizarBotaoEnvio();
-    });
-
-    function mostrarLoader() {
-        document.getElementById("loaderOverlay")?.classList.remove("hidden");
-        document.getElementById("conteudoPrincipal")?.classList.add("hidden");
-    }
-</script>
+<script src="~/js/verificar.js"></script>
 
 

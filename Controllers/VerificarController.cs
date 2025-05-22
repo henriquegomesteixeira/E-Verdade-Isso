@@ -1,7 +1,7 @@
-﻿using everdadeisso.Service;
-using Microsoft.AspNetCore.Mvc;
-using Markdig;
+﻿using Microsoft.AspNetCore.Mvc;
 using everdadeisso.Models;
+using Microsoft.Extensions.Caching.Memory;
+using everdadeisso.Services;
 
 namespace everdadeisso.Controllers
 {
@@ -9,13 +9,16 @@ namespace everdadeisso.Controllers
     {
         private readonly PerplexityService _perplexity;
         private readonly OpenAIService _openai;
+        private readonly IMemoryCache _cache;
 
-        public VerificarController(PerplexityService perplexity, OpenAIService openai)
+        public VerificarController(PerplexityService perplexity, OpenAIService openai, IMemoryCache cache)
         {
             _perplexity = perplexity;
             _openai = openai;
+            _cache = cache;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var (perguntas, dica) = await _openai.GerarSugestoesEDicasAsync();
@@ -27,16 +30,79 @@ namespace everdadeisso.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string texto)
+        public IActionResult Index(string texto)
         {
-            (string classificacao, string explicacaoHtml, List<Referencia> referencias) = await _perplexity.VerificarNoticiaAsync(texto);
+            var id = Guid.NewGuid().ToString("N").Substring(0, 8);
 
-            ViewBag.Enviado = texto;
-            ViewBag.Classificacao = classificacao;
-            ViewBag.ExplicacaoHtml = explicacaoHtml;
-            ViewBag.Referencias = referencias;
+            var pendente = new ResultadoViewModel
+            {
+                Enviado = texto,
+                Classificacao = "pendente",
+                ExplicacaoHtml = "<p>Estamos verificando sua pergunta...</p>",
+                Referencias = new List<Referencia>()
+            };
 
-            return View();
+            _cache.Set("verificacao_" + id, pendente, TimeSpan.FromMinutes(5));
+
+            // Executa a verificação em background sem aguardar
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var (classificacao, explicacaoHtml, referencias) = await _perplexity.VerificarNoticiaAsync(texto);
+
+                    var resultado = new ResultadoViewModel
+                    {
+                        Enviado = texto,
+                        Classificacao = classificacao,
+                        ExplicacaoHtml = explicacaoHtml,
+                        Referencias = referencias
+                    };
+
+                    _cache.Set("verificacao_" + id, resultado, TimeSpan.FromMinutes(5));
+                }
+                catch (Exception ex)
+                {
+                    var erro = new ResultadoViewModel
+                    {
+                        Enviado = texto,
+                        Classificacao = "erro",
+                        ExplicacaoHtml = "<p>Ocorreu um erro ao verificar a informação. Tente novamente.</p>",
+                        Referencias = new List<Referencia>()
+                    };
+
+                    _cache.Set("verificacao_" + id, erro, TimeSpan.FromMinutes(5));
+                }
+            });
+
+            return RedirectToAction("Resultado", new { id });
+        }
+
+        [HttpGet]
+        public IActionResult Resultado(string id)
+        {
+            var resultado = _cache.Get<ResultadoViewModel>("verificacao_" + id);
+            if (resultado == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(resultado);
+        }
+
+        [HttpGet]
+        public IActionResult VerificarStatus(string id)
+        {
+            var resultado = _cache.Get<ResultadoViewModel>("verificacao_" + id);
+            if (resultado == null)
+                return Json(new { status = "não encontrado" });
+
+            return Json(new
+            {
+                status = resultado.Classificacao,
+                enviado = resultado.Enviado,
+                explicacaoHtml = resultado.ExplicacaoHtml,
+                referencias = resultado.Referencias
+            });
         }
     }
 }

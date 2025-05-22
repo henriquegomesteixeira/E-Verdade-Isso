@@ -5,7 +5,7 @@ using Markdig;
 using everdadeisso.Models;
 using HtmlAgilityPack;
 
-namespace everdadeisso.Service
+namespace everdadeisso.Services
 {
     public class PerplexityService
     {
@@ -77,7 +77,7 @@ namespace everdadeisso.Service
             if (mensagem == null) return ("Erro", "<p>Nenhuma resposta encontrada.</p>", null);
 
             var (classificacao, markdownSemClassificacao) = ExtrairRespostaDireta(mensagem);
-            
+
             var indexExplicacao = markdownSemClassificacao.IndexOf("**Explicação**", StringComparison.OrdinalIgnoreCase);
             var indexReferencias = markdownSemClassificacao.IndexOf("**Referências**", StringComparison.OrdinalIgnoreCase);
 
@@ -110,6 +110,8 @@ namespace everdadeisso.Service
 
             var explicacaoHtml = ConverterMarkdownParaHtml(explicacaoMarkdown);
             var referenciasExtraidas = ExtrairReferenciasEstruturadas(referenciasMarkdown);
+
+            Console.WriteLine($"Classificacao: {classificacao}");
 
             return (classificacao, explicacaoHtml, referenciasExtraidas);
         }

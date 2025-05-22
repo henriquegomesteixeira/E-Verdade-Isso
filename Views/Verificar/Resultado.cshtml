@@ -1,0 +1,195 @@
+﻿@model everdadeisso.Models.ResultadoViewModel
+@{
+	ViewData["Title"] = "Resultado da Verificação";
+	var explicacaoHtml = Model.ExplicacaoHtml ?? "";
+	var referencias = Model.Referencias ?? new List<Referencia>();
+}
+
+<div class="mx-auto w-full max-w-4xl px-4">
+	<div id="loaderOverlay" class="hidden fixed inset-0 bg-white/80 z-50 flex items-center justify-center">
+		<div class="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full"></div>
+	</div>
+
+	<div id="conteudoPrincipal">
+		<div class="mt-20 mb-32">
+			<div class="flex mb-4 pb-3 w-full border-b border-gray-200">
+				@if (Uri.IsWellFormedUriString(Model.Enviado, UriKind.Absolute))
+				{
+					<a href="@Model.Enviado"
+					   target="_blank"
+					   rel="noopener noreferrer"
+					   class="inline-flex items-center gap-4 px-3 py-2 rounded-lg bg-[#e0f3eb] border border-[#9ec9bc] text-sm text-primary transition-all break-all">
+						<span class="line-clamp-1 hover:underline">@Model.Enviado</span>
+					</a>
+				}
+				else
+				{
+					<div class="text-text-primary font-semibold text-lg rounded-xl w-full break-words">
+						@Model.Enviado
+					</div>
+				}
+			</div>
+
+			@if (Model.Classificacao == "pendente")
+			{
+				<div class="flex gap-2 items-center">
+					<div class="w-3 h-3 bg-primary rounded-full animate-ping-slow"></div>
+					<div class="flex text-base font-medium transition-all duration-300 ease-in-out text-loader">
+						Estamos verificando a informação enviada...
+					</div>
+				</div>
+			}
+			else
+			{
+				<div class="flex flex-col gap-4">
+					@if (Model.Classificacao == "Informação verdadeira")
+					{
+						<div class="flex items-center gap-3 rounded-xl w-fit">
+							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
+								<i data-lucide="circle-check" class="w-6 h-6"></i>
+							</div>
+							<p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
+						</div>
+					}
+					else if (Model.Classificacao == "Informação falsa")
+					{
+						<div class="flex items-center gap-3 rounded-xl w-fit">
+							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
+								<i data-lucide="x-octagon" class="w-6 h-6"></i>
+							</div>
+							<p class="text-red-700 font-semibold text-lg">Informação falsa</p>
+						</div>
+					}
+					else if (Model.Classificacao == "Informação duvidosa")
+					{
+						<div class="flex items-center gap-3 rounded-xl w-fit">
+							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
+								<i data-lucide="alert-triangle" class="w-6 h-6"></i>
+							</div>
+							<p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
+						</div>
+					}
+
+					@if (!string.IsNullOrWhiteSpace(explicacaoHtml))
+					{
+						<div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
+							@Html.Raw(explicacaoHtml)
+						</div>
+					}
+
+					@if (referencias != null && referencias.Any())
+					{
+						foreach (var referencia in referencias)
+						{
+							<a href="@referencia.Url" target="_blank" rel="noopener noreferrer"
+							   class="group bg-white border border-gray-200 p-3 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 block">
+
+								<div class="flex items-center gap-2 mb-2">
+									<img src="@referencia.FaviconUrl" class="w-4 h-4 mt-px rounded-full border" />
+									<span class="text-xs text-gray-500 group-hover:text-gray-700">@referencia.NomeExibicao</span>
+								</div>
+
+								<h3 class="text-sm font-medium text-gray-800 group-hover:underline group-hover:text-gray-900 line-clamp-2">
+									@referencia.Titulo
+								</h3>
+
+								<p class="text-sm text-gray-600 mt-1 group-hover:text-gray-800 leading-snug line-clamp-2">
+									@referencia.Descricao
+								</p>
+							</a>
+						}
+					}
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="fixed bottom-0 right-0 w-full px-2 pb-2 z-50 bg-gradient-to-t from-white via-white/90 to-transparent">
+		<div class="mx-auto w-full max-w-4xl">
+			<form method="post" action="/verificar" onsubmit="mostrarLoader()" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3 shadow-sm ring-1 ring-gray-100">
+				<div id="inputArea" class="mb-3">
+					<textarea id="autoResizeTextarea"
+							  name="texto"
+							  rows="1"
+							  class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+							  placeholder="Pergunte qualquer coisa..."></textarea>
+				</div>
+
+				<div class="flex justify-between items-center">
+					<div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
+						<div id="slider"
+							 class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
+
+						<button type="button" id="toggleTextBtn"
+								class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
+							<i data-lucide="file-text" class="w-4 h-4"></i>
+							Texto
+						</button>
+
+						<button type="button" id="toggleUrlBtn"
+								class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm font-medium text-primary opacity-60 hover:opacity-100 transition">
+							<i data-lucide="link" class="w-4 h-4"></i>
+							URL
+						</button>
+					</div>
+
+					<div class="flex items-center gap-2">
+						<button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
+							<i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>
+						</button>
+						<button type="submit"
+								class="flex justify-center items-center bg-primary text-white p-2 rounded-lg transition
+                                disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:opacity-85"
+								disabled>
+							<i data-lucide="arrow-right" class="w-4 h-4"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+	@@keyframes ping-slow {
+		0%, 100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+
+		50% {
+			transform: scale(1.5);
+			opacity: 0.5;
+		}
+	}
+
+	.text-loader {
+		font-size: 1rem;
+		font-weight: 500;
+		text-align: center;
+		background: linear-gradient( 90deg, #1e4035 0%, #4d7f6e 50%, #1e4035 100% );
+		background-size: 200% auto;
+		color: transparent;
+		background-clip: text;
+		-webkit-background-clip: text;
+		text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+		animation: shimmer 1.5s linear infinite;
+	}
+
+	.animate-ping-slow {
+		animation: ping-slow 1.2s infinite ease-in-out;
+	}
+
+	@@keyframes shimmer {
+		0% {
+			background-position: 200% center;
+		}
+
+		100% {
+			background-position: -200% center;
+		}
+	}
+
+</style>
+
+<script src="~/js/verificar.js"></script>

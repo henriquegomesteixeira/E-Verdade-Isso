@@ -1,4 +1,4 @@
-using everdadeisso.Service;
+using everdadeisso.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
