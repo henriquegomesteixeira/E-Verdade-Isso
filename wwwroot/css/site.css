@@ -31,3 +31,9 @@ button {
 i {
     transition: all 0.2s ease-in-out;
 }
+
+::selection {
+    background: #bce2d2a9;
+    color: #13343b;
+    text-decoration: 1px underline #1B4D3E;
+}

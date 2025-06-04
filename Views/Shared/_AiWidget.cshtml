@@ -1,0 +1,70 @@
+﻿<!-- AI Face Widget -->
+<div class="container-ai-input">
+    <label class="container-wrap">
+        <input type="checkbox" />
+        <div class="card">
+            <div class="background-blur-balls">
+                <div class="balls">
+                    <span class="ball rosa"></span>
+                    <span class="ball violet"></span>
+                    <span class="ball green"></span>
+                    <span class="ball cyan"></span>
+                </div>
+            </div>
+            <div class="content-card">
+                <div class="background-blur-card">
+                    <div class="eyes">
+                        <span class="eye"></span>
+                        <span class="eye"></span>
+                    </div>
+                    <div class="eyes happy">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.28386 16.2843C8.9917 15.7665 9.8765 14.731 12 14.731C14.1235 14.731 15.0083 15.7665 15.7161 16.2843C17.8397 17.8376 18.7542 16.4845 18.9014 15.7665C19.4323 13.1777 17.6627 11.1066 17.3088 10.5888C16.3844 9.23666 14.1235 8 12 8C9.87648 8 7.61556 9.23666 6.69122 10.5888C6.33728 11.1066 4.56771 13.1777 5.09858 15.7665C5.24582 16.4845 6.16034 17.8376 8.28386 16.2843Z" />
+                        </svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8.28386 16.2843C8.9917 15.7665 9.8765 14.731 12 14.731C14.1235 14.731 15.0083 15.7665 15.7161 16.2843C17.8397 17.8376 18.7542 16.4845 18.9014 15.7665C19.4323 13.1777 17.6627 11.1066 17.3088 10.5888C16.3844 9.23666 14.1235 8 12 8C9.87648 8 7.61556 9.23666 6.69122 10.5888C6.33728 11.1066 4.56771 13.1777 5.09858 15.7665C5.24582 16.4845 6.16034 17.8376 8.28386 16.2843Z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </label>
+</div>
+
+<script>
+    document.addEventListener("mousemove", (e) => {
+      const wrap = document.querySelector(".container-wrap");
+      const card = document.querySelector(".container-wrap .card");
+      const eyes = document.querySelector(".container-wrap .eyes");
+
+      if (!wrap || !card || !eyes) return;
+
+      // Centro do rostinho
+      const rect = wrap.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Diferença entre mouse e centro do rosto
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+
+      // Sensibilidade
+      const maxRotation = 18; // limite de rotação em graus
+      const percentX = dx / (rect.width / 2);
+      const percentY = dy / (rect.height / 2);
+
+      // Clamp helper
+      const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+
+      // Aplica limites
+      const rotateY = clamp(percentX * maxRotation, -maxRotation, maxRotation);
+      const rotateX = clamp(-percentY * maxRotation, -maxRotation, maxRotation);
+
+      // Aplica transformação
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(50px)`;
+      eyes.style.transform = `translateX(-50%) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+    });
+</script>
+
+
+

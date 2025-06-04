@@ -3,14 +3,20 @@
 }
 
 <div class="bg-white text-gray-800 min-h-screen flex flex-col justify-between">
-
-    <!-- Hero -->
     <section class="bg-[#f6fbf9] px-6 pt-24 pb-16 text-center mt-20">
+        <div class="flex justify-center mb-4 cursor-default">
+            <article class="w-fit flex hover:animate-background rounded-full bg-gradient-to-r from-teal-600 p-[1px] via-lime-400 to-emerald-400 transition hover:bg-[length:500%_400%] hover:[animation-duration:_4s]">
+                <div class="text-xs font-semibold bg-white text-lime-400 px-4 py-1 rounded-full tracking-wide inline-flex items-center">
+                    <span class="w-2 h-2 bg-emerald-700 rounded-full mr-2 animate-pulse"></span>
+                    <span class="text-sm font-bold text-emerald-800">Verificação em Tempo Real</span>
+                </div>
+            </article>
+        </div>
         <h1 class="text-4xl md:text-5xl font-semibold leading-tight text-gray-900 mb-4">
             É <span class="border-b-4 border-green-700">VERDADE</span> ISSO?
         </h1>
         <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600">
-            Descubra se uma notícia ou link é <strong class="text-primary">verdadeiro, falso ou duvidoso</strong> com base em fontes confiáveis.
+            Descubra em segundos se uma notícia é <strong class="text-primary">verdadeira, falsa ou duvidosa</strong>, com base em fontes confiáveis e análise especializada.
         </p>
         <div class="mt-8">
             <a href="/verificar" class="bg-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium">
@@ -19,165 +25,241 @@
         </div>
     </section>
 
-    <!-- Seção Como Usar -->
-    <section class="bg-white py-20 px-6 max-w-4xl mx-auto">
+    <section class="bg-[#f6fbf9] py-16 px-4 sm:px-6 cursor-default">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                <div class="group relative bg-white p-6 rounded-xl border border-gray-100 hover:border-green-300 transition-all shadow-sm hover:shadow-md">
+                    <div class="absolute -top-5 left-6 bg-gradient-to-br from-primary to-green-700 p-3 rounded-lg text-white group-hover:-translate-y-1 transition-transform">
+                        <i data-lucide="search-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Busca em Fontes Confiáveis</h3>
+                    <p class="text-gray-600">Consultamos exclusivamente veículos jornalísticos certificados, agências oficiais e bancos de dados reconhecidos</p>
+                </div>
 
-        <div class="space-y-8">
-            <!-- Passo 1 -->
-            <div class="flex items-start gap-4">
-                <div class="flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
+                <div class="group relative bg-white p-6 rounded-xl border border-gray-100 hover:border-green-300 transition-all shadow-sm hover:shadow-md">
+                    <div class="absolute -top-5 left-6 bg-gradient-to-br from-primary to-green-700 p-3 rounded-lg text-white group-hover:-translate-y-1 transition-transform">
+                        <i data-lucide="microscope" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Análise Baseada em Fatos</h3>
+                    <p class="text-gray-600">Nossa tecnologia compara o conteúdo com dados verificados e contexto histórico para identificar inconsistências</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Escolha o tipo de verificação</h3>
-                    <p class="text-gray-600 text-sm mt-1">
-                        Você pode verificar uma notícia copiando e colando o <strong>texto</strong> completo ou apenas um <strong>link</strong> direto da notícia.
-                    </p>
-                </div>
-            </div>
 
-            <!-- Passo 2 -->
-            <div class="flex items-start gap-4">
-                <div class="flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</div>
+                <div class="group relative bg-white p-6 rounded-xl border border-gray-100 hover:border-green-300 transition-all shadow-sm hover:shadow-md">
+                    <div class="absolute -top-5 left-6 bg-gradient-to-br from-primary to-green-700 p-3 rounded-lg text-white group-hover:-translate-y-1 transition-transform">
+                        <i data-lucide="shapes" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Classificação Transparente</h3>
+                    <p class="text-gray-600">Cada conteúdo recebe um selo de Verdadeiro, Falso ou Duvidoso com explicação detalhada</p>
                 </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Aguarde a análise</h3>
-                    <p class="text-gray-600 text-sm mt-1">
-                        O sistema faz uma busca automática em fontes jornalísticas confiáveis e portais de checagem reconhecidos. Em segundos, você verá se a informação é <strong>verdadeira</strong>, <strong>falsa</strong> ou <strong>duvidosa</strong>, com explicação e fontes.
-                    </p>
-                </div>
-            </div>
 
-            <!-- Passo 3 -->
-            <div class="flex items-start gap-4">
-                <div class="flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Leia a explicação e as fontes</h3>
-                    <p class="text-gray-600 text-sm mt-1">
-                        O site mostra um resumo explicando o motivo da classificação da notícia e apresenta links de fontes confiáveis que embasam a verificação.
-                    </p>
-                </div>
-            </div>
+                <div class="group relative bg-white p-6 rounded-xl border border-gray-100 hover:border-green-300 transition-all shadow-sm hover:shadow-md">
+                    <div class="absolute -top-5 left-6 bg-gradient-to-br from-primary to-green-700 p-3 rounded-lg text-white group-hover:-translate-y-1 transition-transform">
+                        <i data-lucide="square-dashed-mouse-pointer" class="w-6 h-6"></i>
 
-            <!-- Passo 4 -->
-            <div class="flex items-start gap-4">
-                <div class="flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">4</div>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Compartilhe com responsabilidade</h3>
-                    <p class="text-gray-600 text-sm mt-1">
-                        Agora que você sabe se a informação é confiável, compartilhe apenas conteúdos verificados. Ajude a combater a desinformação!
-                    </p>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Referências Completas</h3>
+                    <p class="text-gray-600">Mostramos todas as fontes utilizadas na verificação para você conferir pessoalmente</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Como funciona -->
-    <section class="py-16 px-6 max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-center text-primary mb-12">Como funciona?</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section class="py-24 px-4 cursor-default">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-14 md:mb-20">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-4 mb-4 leading-snug">
+                    Como <span class="text-primary">verificar</span> uma notícia
+                </h2>
 
-            <!-- Bloco 1 -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
-                <div class="flex justify-center mb-4">
-                    <i data-lucide="brain-cog" class="w-10 h-10 text-primary"></i>
-                </div>
-                <h3 class="text-lg font-semibold mb-2 text-gray-900">Análise com IA</h3>
-                <p class="text-sm text-gray-600">
-                    IA avançada que avalia conteúdos em tempo real e detecta desinformação com base em fontes verificadas.
+                <p class="text-base md:text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
+                    Siga os <span class="text-primary font-semibold">5 passos rápidos</span> abaixo para identificar informações falsas com confiança e <span class="text-primary font-semibold">eficiência</span>.
                 </p>
             </div>
 
-            <!-- Bloco 2 -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
-                <div class="flex justify-center mb-4">
-                    <i data-lucide="link" class="w-10 h-10 text-primary"></i>
+            <div class="hidden md:block relative">
+                <div class="absolute left-20 right-20 top-1/2 h-1.5 bg-gradient-to-r from-emerald-500 via-emerald-900 to-emerald-500 transform -translate-y-1/2 z-0 animate-pulse"></div>
+
+                <div class="grid grid-cols-5 gap-6 relative z-10">
+                    <div class="group relative">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-br from-primary to-green-700 border border-emerald-700 rounded-lg shadow-md z-20 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg">
+                            <span class="text-2xl font-bold text-white">1</span>
+                        </div>
+
+                        <div class="bg-white p-8 pt-14 rounded-xl border border-emerald-200 shadow-md hover:shadow-xl group-hover:ring-2 group-hover:ring-emerald-700/30 transition-all duration-300 h-full">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-200 transition-all duration-300">
+                                <i data-lucide="search" class="w-6 h-6 text-emerald-700"></i>
+                            </div>
+                            <h3 class="font-semibold text-emerald-800 mb-3 text-lg text-center">Acesse</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed text-center">Nossa plataforma de verificação</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-br from-primary to-green-700 border border-emerald-700 rounded-lg shadow-md z-20 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg">
+                            <span class="text-2xl font-bold text-white">2</span>
+                        </div>
+
+                        <div class="bg-white p-8 pt-14 rounded-xl border border-emerald-200 shadow-md hover:shadow-xl group-hover:ring-2 group-hover:ring-emerald-700/30 transition-all duration-300 h-full">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-200 transition-all duration-300">
+                                <i data-lucide="clipboard-paste" class="w-6 h-6 text-emerald-700"></i>
+                            </div>
+                            <h3 class="font-semibold text-emerald-800 mb-3 text-lg text-center">Cole</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed text-center">O texto ou URL da notícia</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-br from-primary to-green-700 border border-emerald-700 rounded-lg shadow-md z-20 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg">
+                            <span class="text-2xl font-bold text-white">3</span>
+                        </div>
+
+                        <div class="bg-white p-8 pt-14 rounded-xl border border-emerald-200 shadow-md hover:shadow-xl group-hover:ring-2 group-hover:ring-emerald-700/30 transition-all duration-300 h-full">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-200 transition-all duration-300">
+                                <i data-lucide="activity" class="w-6 h-6 text-emerald-700"></i>
+                            </div>
+                            <h3 class="font-semibold text-emerald-800 mb-3 text-lg text-center">Analise</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed text-center">Nossa IA faz a verificação</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-br from-primary to-green-700 border border-emerald-700 rounded-lg shadow-md z-20 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg">
+                            <span class="text-2xl font-bold text-white">4</span>
+                        </div>
+
+                        <div class="bg-white p-8 pt-14 rounded-xl border border-emerald-200 shadow-md hover:shadow-xl group-hover:ring-2 group-hover:ring-emerald-700/30 transition-all duration-300 h-full">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-200 transition-all duration-300">
+                                <i data-lucide="file-search" class="w-6 h-6 text-emerald-700"></i>
+                            </div>
+                            <h3 class="font-semibold text-emerald-800 mb-3 text-lg text-center">Confira</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed text-center">Resultados e fontes confiáveis</p>
+                        </div>
+                    </div>
+
+                    <div class="group relative">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 bg-gradient-to-br from-primary to-green-700 border border-emerald-700 rounded-lg shadow-md z-20 flex items-center justify-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg">
+                            <span class="text-2xl font-bold text-white">5</span>
+                        </div>
+
+                        <div class="bg-white p-8 pt-14 rounded-xl border border-emerald-200 shadow-md hover:shadow-xl group-hover:ring-2 group-hover:ring-emerald-700/30 transition-all duration-300 h-full">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-200 transition-all duration-300">
+                                <i data-lucide="megaphone" class="w-6 h-6 text-emerald-700"></i>
+                            </div>
+                            <h3 class="font-semibold text-emerald-800 mb-3 text-lg text-center">Divulgue</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed text-center">A informação verificada</p>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="text-lg font-semibold mb-2 text-gray-900">Verificação por link</h3>
-                <p class="text-sm text-gray-600">
-                    Basta colar um link e a plataforma confere se o conteúdo é confiável, com explicações claras e acessíveis.
-                </p>
             </div>
 
-            <!-- Bloco 3 -->
-            <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm text-center hover:shadow-md transition-all">
-                <div class="flex justify-center mb-4">
-                    <i data-lucide="book-open-text" class="w-10 h-10 text-primary"></i>
-                </div>
-                <h3 class="text-lg font-semibold mb-2 text-gray-900">Fontes confiáveis</h3>
-                <p class="text-sm text-gray-600">
-                    Exibimos as fontes usadas em cada verificação: jornais reconhecidos, agências de checagem e dados públicos.
-                </p>
-            </div>
+            <div class="md:hidden relative">
+                <div class="space-y-6">
+                    <div class="relative flex items-start">
+                        <div class="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-emerald-500 to-emerald-600 animate-pulse"></div>
 
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-green-700 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white z-10">
+                            <span class="text-2xl font-bold text-white">1</span>
+                        </div>
+
+                        <div class="ml-6 flex-1 bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 border border-emerald-200">
+                                    <i data-lucide="search" class="w-6 h-6 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-emerald-800 mb-1">Acesse</h3>
+                                    <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">Nossa plataforma inteligente de verificação de notícias</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start">
+                        <div class="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-emerald-500 to-emerald-600 animate-pulse"></div>
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-green-700 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white z-10">
+                            <span class="text-2xl font-bold text-white">2</span>
+                        </div>
+
+                        <div class="ml-6 flex-1 bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 border border-emerald-200">
+                                    <i data-lucide="clipboard-paste" class="w-6 h-6 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-emerald-800 mb-1">Cole</h3>
+                                    <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">O texto completo ou URL da notícia que você quer verificar</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start">
+                        <div class="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-emerald-500 to-emerald-600 animate-pulse"></div>
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-green-700 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white z-10">
+                            <span class="text-2xl font-bold text-white">3</span>
+                        </div>
+
+                        <div class="ml-6 flex-1 bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 border border-emerald-200">
+                                    <i data-lucide="activity" class="w-6 h-6 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-emerald-800 mb-1">Analise</h3>
+                                    <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">Nossa IA avançada realiza a verificação automaticamente</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start">
+                        <div class="absolute left-8 top-20 w-1 h-16 bg-gradient-to-b from-emerald-500 to-emerald-600 animate-pulse"></div>
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-green-700 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white z-10">
+                            <span class="text-2xl font-bold text-white">4</span>
+                        </div>
+
+                        <div class="ml-6 flex-1 bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 border border-emerald-200">
+                                    <i data-lucide="file-search" class="w-6 h-6 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-emerald-800 mb-1">Confira</h3>
+                                    <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">Resultados detalhados com fontes confiáveis e análise completa</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex items-start">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-green-700 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white z-10">
+                            <span class="text-2xl font-bold text-white">5</span>
+                        </div>
+
+                        <div class="ml-6 flex-1 bg-white p-6 rounded-2xl border border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 border border-emerald-200">
+                                    <i data-lucide="megaphone" class="w-6 h-6 text-emerald-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-xl text-emerald-800 mb-1">Divulgue</h3>
+                                    <div class="w-12 h-1 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">Compartilhe a informação verificada e ajude a combater fake news</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-
-    <!-- Rodapé -->
-    <footer class="bg-primary text-white mt-5 border-t border-secondary">
-        <div class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-
-            <!-- Marca e descrição -->
-            <div>
-                <div class="flex items-center gap-2 mb-3">
-                    <img src="~/img/Logo.png" alt="Logo" class="w-7 h-7">
-                    <span class="font-semibold text-lg">É Verdade Isso?</span>
-                </div>
-                <p class="text-sm leading-relaxed text-primary-light">
-                    Plataforma gratuita que usa IA para verificar fatos em tempo real. Criada para combater fake news com transparência e fontes confiáveis.
-                </p>
-            </div>
-
-            <!-- Navegação -->
-            <div>
-                <h3 class="text-sm font-semibold mb-3">Navegação</h3>
-                <ul class="space-y-2 text-sm">
-                    <li>
-                        <a href="/" class="text-primary-light hover:text-white hover:underline transition">Início</a>
-                    </li>
-                    <li>
-                        <a href="/verificar" class="text-primary-light hover:text-white hover:underline transition">Verificar notícia</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/henriquegomesteixeira/everdadeisso" target="_blank" class="text-primary-light hover:text-white hover:underline transition">Repositório GitHub</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Contato -->
-            <div>
-                <h3 class="text-sm font-semibold mb-3">Contato</h3>
-                <ul class="space-y-2 text-sm">
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="github" class="w-4 h-4 text-primary-light"></i>
-                        <a href="https://github.com/henriquegomesteixeira" target="_blank" class="text-primary-light hover:text-white hover:underline transition">GitHub</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="linkedin" class="w-4 h-4 text-primary-light"></i>
-                        <a href="https://www.linkedin.com/in/henriquegomesteixeira/" target="_blank" class="text-primary-light hover:text-white hover:underline transition">LinkedIn</a>
-                    </li>
-                </ul>
-
-                <p class="text-xs text-primary-light mt-6 flex items-center gap-2">
-                    <span class="inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-primary-light" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.477 2 2 6.478 2 12s4.477 10 10 10 10-4.478 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm.09-5.846c-.94 0-1.654-.407-2.048-1.178l-1.515.872C9.264 15.906 10.57 16.5 12.09 16.5c2.06 0 3.506-1.394 3.506-3.486s-1.446-3.486-3.506-3.486c-1.52 0-2.826.594-3.563 1.152l1.515.872c.393-.771 1.107-1.178 2.048-1.178 1.106 0 1.91.718 1.91 1.64 0 .922-.804 1.64-1.91 1.64z" />
-                        </svg>
-                    </span>
-                    <span>@(DateTime.Now.Year) Henrique Gomes Teixeira. Todos os direitos reservados.</span>
-                </p>
-            </div>
-
-        </div>
-    </footer>
-
+    @Html.Partial("_Footer")
 </div>
-
-
-

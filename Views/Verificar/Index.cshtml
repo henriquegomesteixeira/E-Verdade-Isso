@@ -11,7 +11,6 @@
 	<div class="flex flex-col justify-center min-h-screen gap-4">
 		<h1 class="font-poppins font-medium text-3xl text-primary">O que você quer saber?</h1>
 		<form method="post" class="bg-white rounded-xl border-[1.5px] border-gray-300 w-full p-3">
-			<!-- Campo dinâmico: muda entre textarea ou input -->
 			<div id="inputArea" class="mb-3">
 				<textarea id="autoResizeTextarea"
 						  name="texto"
@@ -21,14 +20,11 @@
 			</div>
 
 			<div class="flex justify-between items-center">
-				<!-- Toggle -->
 				<div class="relative inline-flex rounded-lg bg-[#e0f3eb] p-[2.5px] w-fit">
-					<!-- Fundo deslizante animado -->
 					<div id="slider"
 						 class="absolute top-[2.5px] left-[2.5px] w-[95px] h-[33px] bg-white rounded-lg border border-[#9ec9bc] shadow transition-all duration-300 ease-in-out z-0"></div>
 
 
-					<!-- Botões -->
 					<button type="button" id="toggleTextBtn"
 							class="relative z-10 flex items-center gap-1 px-4 py-1.5 text-sm hover:opacity-100 font-medium text-primary">
 						<i data-lucide="file-text" class="w-4 h-4"></i>
@@ -42,7 +38,6 @@
 					</button>
 				</div>
 
-				<!-- Ações -->
 				<div class="flex items-center gap-2">
 					<button type="button" class="flex justify-center items-center group rounded-lg p-2 hover:bg-gray-light">
 						<i data-lucide="paperclip" class="w-4 h-4 text-gray-dark group-hover:text-primary"></i>

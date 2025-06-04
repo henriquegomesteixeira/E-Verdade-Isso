@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Termos de Uso";
+}
+
+<div class="max-w-3xl mx-auto px-4 py-20 text-gray-800">
+    <h1 class="text-3xl font-bold mb-6 text-primary">Termos de Uso</h1>
+
+    <p class="mb-4 text-sm text-gray-700">
+        Ao utilizar o site <strong>É Verdade Isso?</strong>, você concorda com estes Termos de Uso. Recomendamos a leitura atenta deste documento antes de utilizar nossos serviços.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">1. Finalidade do Site</h2>
+    <p class="text-sm mb-4">
+        Este site tem caráter exclusivamente informativo e educacional. A ferramenta utiliza inteligência artificial conectada a fontes públicas e confiáveis para verificar o conteúdo de textos ou links enviados pelo usuário.
+    </p>
+    <p class="text-sm mb-4">
+        O projeto é gratuito e foi desenvolvido com o objetivo de combater a desinformação, especialmente fake news, contribuindo para uma sociedade mais crítica e bem informada.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">2. Coleta de Dados</h2>
+    <p class="text-sm mb-4">
+        Não coletamos, armazenamos ou compartilhamos dados pessoais dos usuários. As informações inseridas (textos ou links) são processadas de forma anônima, apenas para análise momentânea, sem qualquer registro posterior.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">3. Responsabilidade sobre as Informações</h2>
+    <p class="text-sm mb-4">
+        As respostas geradas são baseadas em consultas feitas por um modelo de linguagem artificial. Apesar do uso de fontes públicas confiáveis, <strong>não garantimos a total precisão, atualidade ou exatidão das informações retornadas</strong>.
+    </p>
+    <p class="text-sm mb-4">
+        O usuário é o único responsável pelo uso das informações obtidas neste site, incluindo decisões tomadas a partir das respostas fornecidas.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">4. Uso Indevido</h2>
+    <p class="text-sm mb-4">
+        É proibido utilizar este site para fins ilegais, para disseminar conteúdo falso ou ofensivo, ou ainda de forma automatizada (bots, scrapers ou afins).
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">5. Propriedade Intelectual</h2>
+    <p class="text-sm mb-4">
+        Todos os elementos do site — como textos, layout, marca e funcionalidades — são de propriedade do autor do projeto e não podem ser copiados ou reutilizados sem autorização prévia.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">6. Modificações nos Termos</h2>
+    <p class="text-sm mb-4">
+        Estes Termos de Uso podem ser alterados a qualquer momento, sem aviso prévio. Recomendamos que os usuários revisitem esta página periodicamente.
+    </p>
+
+    <h2 class="text-xl font-semibold text-primary mt-8 mb-2">7. Contato</h2>
+    <p class="text-sm mb-4">
+        Em caso de dúvidas sobre estes termos, entre em contato por meio das redes sociais informadas no rodapé do site.
+    </p>
+
+    <p class="mt-10 text-xs text-gray-500">
+        Última atualização: @(DateTime.Now.ToString("dd/MM/yyyy"))
+    </p>
+</div>
+
+@Html.Partial("_Footer")

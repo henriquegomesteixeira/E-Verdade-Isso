@@ -18,7 +18,14 @@ namespace everdadeisso.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [Route("privacidade")]
+        public IActionResult Privacidade()
+        {
+            return View();
+        }
+
+        [Route("termos")]
+        public IActionResult Termos()
         {
             return View();
         }
