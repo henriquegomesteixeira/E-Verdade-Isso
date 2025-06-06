@@ -42,34 +42,6 @@
 			else
 			{
 				<div class="flex flex-col gap-4">
-					@if (Model.Classificacao == "Informação verdadeira")
-					{
-						<div class="flex items-center gap-3 rounded-xl w-fit">
-							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600">
-								<i data-lucide="circle-check" class="w-6 h-6"></i>
-							</div>
-							<p class="text-green-700 font-semibold text-lg">Informação verdadeira</p>
-						</div>
-					}
-					else if (Model.Classificacao == "Informação falsa")
-					{
-						<div class="flex items-center gap-3 rounded-xl w-fit">
-							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600">
-								<i data-lucide="x-octagon" class="w-6 h-6"></i>
-							</div>
-							<p class="text-red-700 font-semibold text-lg">Informação falsa</p>
-						</div>
-					}
-					else if (Model.Classificacao == "Informação duvidosa")
-					{
-						<div class="flex items-center gap-3 rounded-xl w-fit">
-							<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-yellow-100 text-yellow-600">
-								<i data-lucide="alert-triangle" class="w-6 h-6"></i>
-							</div>
-							<p class="text-yellow-800 font-semibold text-lg">Informação duvidosa</p>
-						</div>
-					}
-
 					@if (!string.IsNullOrWhiteSpace(explicacaoHtml))
 					{
 						<div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">

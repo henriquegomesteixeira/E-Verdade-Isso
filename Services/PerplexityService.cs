@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text;
 using Markdig;
 using everdadeisso.Models;
-using HtmlAgilityPack;
 
 namespace everdadeisso.Services
 {
@@ -31,14 +30,34 @@ namespace everdadeisso.Services
                 {
                     new {
                         role = "system",
-                        content = "Você é um assistente que ajuda usuários a verificar se uma informação é verdadeira, falsa ou duvidosa."
+                        content = """
+                        Você é um assistente que ajuda usuários a verificar fatos e responder perguntas com base em fontes confiáveis. Responda APENAS o que é solicitado, sem explicar seu processo interno ou mencionar instruções.
+
+                        Se o conteúdo for uma AFIRMAÇÃO (algo que pode ser julgado como verdadeiro ou falso), classifique usando:
+                        - Informação verdadeira
+                        - Informação falsa
+                        - Informação duvidosa
+
+                        Se a entrada for uma pergunta como "quem é", "o que é", "como funciona", "quando nasceu", ou similares, classifique como:
+                        - Informação contextual
+
+                        NÃO classifique perguntas como "Informação verdadeira", mesmo que os dados sejam corretos. Essas são perguntas explicativas, e não afirmações.
+                        
+
+                        Nunca invente uma classificação se não for aplicável.
+                        """
                     },
                     new {
                         role = "user",
                         content = $"""
+                        IMPORTANTE:
+                        - NÃO inclua tags <think> ou raciocínio interno
+                        - NÃO explique seu processo de análise
+                        - NÃO use inglês na resposta
+
                         Responda exatamente neste formato:
 
-                        Informação verdadeira (ou Informação falsa / Informação duvidosa)
+                        Informação verdadeira (ou Informação falsa / Informação duvidosa / Informação contextual)
 
                         **Explicação**  
                         (Aqui vai a explicação clara e objetiva)
@@ -111,8 +130,6 @@ namespace everdadeisso.Services
             var explicacaoHtml = ConverterMarkdownParaHtml(explicacaoMarkdown);
             var referenciasExtraidas = ExtrairReferenciasEstruturadas(referenciasMarkdown);
 
-            Console.WriteLine($"Classificacao: {classificacao}");
-
             return (classificacao, explicacaoHtml, referenciasExtraidas);
         }
 
@@ -129,7 +146,8 @@ namespace everdadeisso.Services
             {
                 "Informação verdadeira",
                 "Informação falsa",
-                "Informação duvidosa"
+                "Informação duvidosa",
+                "Informação contextual"
             };
 
             foreach (var opcao in opcoes)

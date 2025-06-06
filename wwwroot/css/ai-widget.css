@@ -199,13 +199,10 @@
     pointer-events: none;
 }
 
-/* Restante do CSS permanece igual (as áreas de hover e animações) */
 .area:nth-child(15):hover ~ .container-wrap .card,
 .area:nth-child(15):hover ~ .container-wrap .eyes .eye {
     transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(15deg) translateZ(var(--translateY)) scale3d(1, 1, 1);
 }
-
-/* ... (todas as outras regras de área permanecem iguais) ... */
 
 @keyframes rotate-background-balls {
     from {

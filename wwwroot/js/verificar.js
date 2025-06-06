@@ -66,7 +66,7 @@ function atualizarResultado(data) {
     const container = document.getElementById("conteudoPrincipal");
     let html = "";
 
-    html += `<div class="mt-20 mb-28">
+    html += `<div class="mt-20 mb-32">
                 <div class="flex mb-4 pb-3 w-full border-b border-gray-200">`;
 
     if (isValidUrl(data.enviado)) {
@@ -97,6 +97,10 @@ function atualizarResultado(data) {
         colorClass = "bg-yellow-100 text-yellow-600";
         icon = "alert-triangle";
         textColor = "text-yellow-800";
+    } else if (data.status === "Informação contextual") {
+        colorClass = "bg-blue-100 text-[#1b399d]";
+        icon = "info";
+        textColor = "text-[#1b399d]";
     } else if (data.status === "erro") {
         colorClass = "bg-red-100 text-red-600";
         icon = "alert-circle";
@@ -279,7 +283,7 @@ if (typeof window !== 'undefined' && window.location.pathname.includes('/Resulta
                 // Exibe mensagem de erro
                 const container = document.getElementById("conteudoPrincipal");
                 container.innerHTML = `
-                    <div class="mt-20 mb-28 text-center">
+                    <div class="mt-20 mb-32 text-center">
                         <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full">
                             <i data-lucide="alert-circle" class="w-8 h-8 text-red-600"></i>
                         </div>

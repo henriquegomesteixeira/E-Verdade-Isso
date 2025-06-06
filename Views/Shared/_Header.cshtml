@@ -1,15 +1,12 @@
 ﻿<header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
     <div class="mx-auto w-full max-w-4xl px-4 py-3 flex items-center justify-between">
 
-        <!-- Lado esquerdo: logo + AI Widget + badge -->
         <a href="/" class="hover:opacity-90 transition flex items-center gap-2">
 
-            <!-- AI Widget -->
             <div class="ai-widget-container relative w-[40px] h-[40px] shrink-0">
                 @Html.Partial("_AiWidget")
             </div>
 
-            <!-- Badge BETA -->
             <article class="flex hover:animate-background rounded-lg bg-gradient-to-r from-teal-600 p-0.5 via-lime-400 to-emerald-400 transition hover:bg-[length:400%_400%] hover:shadow-sm hover:[animation-duration:_4s]">
                 <span class="text-xs font-semibold uppercase bg-white text-green-800 px-2 py-0.5 rounded-md tracking-wide">
                     Beta
@@ -17,7 +14,6 @@
             </article>
         </a>
 
-        <!-- Navegação -->
         <nav class="flex items-center gap-4 text-sm font-medium text-gray-700">
             <a href="/" class="hover:text-primary transition">Início</a>
             <a href="/verificar" class="bg-primary text-white px-4 py-2 rounded-md hover:opacity-90 transition shadow-sm">
