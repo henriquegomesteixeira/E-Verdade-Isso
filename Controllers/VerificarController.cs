@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using everdadeisso.Models;
 using Microsoft.Extensions.Caching.Memory;
-using everdadeisso.Services;
+using everdadeisso.Models.ViewModels;
+using everdadeisso.Interfaces;
 
 namespace everdadeisso.Controllers
 {
     public class VerificarController : Controller
     {
-        private readonly PerplexityService _perplexity;
+        private readonly IVerificacaoService _verificacaoService;
         private readonly OpenAIService _openai;
         private readonly IMemoryCache _cache;
 
-        public VerificarController(PerplexityService perplexity, OpenAIService openai, IMemoryCache cache)
+        public VerificarController(IVerificacaoService verificacaoService, OpenAIService openai, IMemoryCache cache)
         {
-            _perplexity = perplexity;
+            _verificacaoService = verificacaoService;
             _openai = openai;
             _cache = cache;
         }
@@ -38,39 +39,28 @@ namespace everdadeisso.Controllers
             {
                 Enviado = texto,
                 Classificacao = "pendente",
-                ExplicacaoHtml = "<p>Estamos verificando sua pergunta...</p>",
+                Explicacao = "<p>Estamos verificando sua pergunta...</p>",
                 Referencias = new List<Referencia>()
             };
 
             _cache.Set("verificacao_" + id, pendente, TimeSpan.FromMinutes(5));
 
-            // Executa a verificação em background sem aguardar
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    var (classificacao, explicacaoHtml, referencias) = await _perplexity.VerificarNoticiaAsync(texto);
-
-                    var resultado = new ResultadoViewModel
-                    {
-                        Enviado = texto,
-                        Classificacao = classificacao,
-                        ExplicacaoHtml = explicacaoHtml,
-                        Referencias = referencias
-                    };
-
+                    var resultado = await _verificacaoService.VerificarConteudoAsync(texto);
                     _cache.Set("verificacao_" + id, resultado, TimeSpan.FromMinutes(5));
                 }
-                catch (Exception ex)
+                catch
                 {
                     var erro = new ResultadoViewModel
                     {
                         Enviado = texto,
                         Classificacao = "erro",
-                        ExplicacaoHtml = "<p>Ocorreu um erro ao verificar a informação. Tente novamente.</p>",
+                        Explicacao = "<p>Ocorreu um erro ao verificar a informação. Tente novamente.</p>",
                         Referencias = new List<Referencia>()
                     };
-
                     _cache.Set("verificacao_" + id, erro, TimeSpan.FromMinutes(5));
                 }
             });
@@ -100,7 +90,7 @@ namespace everdadeisso.Controllers
             {
                 status = resultado.Classificacao,
                 enviado = resultado.Enviado,
-                explicacaoHtml = resultado.ExplicacaoHtml,
+                explicacao = resultado.Explicacao,
                 referencias = resultado.Referencias
             });
         }

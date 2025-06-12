@@ -1,7 +1,8 @@
-﻿@model everdadeisso.Models.ResultadoViewModel
+﻿@model everdadeisso.Models.ViewModels.ResultadoViewModel
+
 @{
 	ViewData["Title"] = "Resultado da Verificação";
-	var explicacaoHtml = Model.ExplicacaoHtml ?? "";
+	var explicacao = Model.Explicacao ?? "";
 	var referencias = Model.Referencias ?? new List<Referencia>();
 }
 
@@ -42,10 +43,10 @@
 			else
 			{
 				<div class="flex flex-col gap-4">
-					@if (!string.IsNullOrWhiteSpace(explicacaoHtml))
+					@if (!string.IsNullOrWhiteSpace(explicacao))
 					{
 						<div class="prose max-w-none [&_a]:text-blue-600 [&_a:hover]:underline [&_a]:break-words text-text-primary">
-							@Html.Raw(explicacaoHtml)
+							explicacao
 						</div>
 					}
 
@@ -83,7 +84,7 @@
 					<textarea id="autoResizeTextarea"
 							  name="texto"
 							  rows="1"
-							  class="w-full overflow-hidden resize-none max-h-52 outline-none transition-all focus:text-text-primary"
+							  class="w-full overflow-auto resize-none max-h-52 outline-none transition-all focus:text-text-primary"
 							  placeholder="Pergunte qualquer coisa..."></textarea>
 				</div>
 

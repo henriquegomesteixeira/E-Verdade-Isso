@@ -1,4 +1,5 @@
-using everdadeisso.Services;
+using everdadeisso.Integrations;
+using everdadeisso.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,8 +7,9 @@ builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<PerplexityService>();
 builder.Services.AddScoped<OpenAIService>();
+builder.Services.AddScoped<IVerificacaoService, VerificacaoService>();
+builder.Services.AddHttpClient<IPerplexityClient, PerplexityClient>();
 
 var app = builder.Build();
 
