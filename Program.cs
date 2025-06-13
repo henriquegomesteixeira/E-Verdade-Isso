@@ -7,6 +7,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<OpenAIClient>();
 builder.Services.AddScoped<OpenAIService>();
 builder.Services.AddScoped<IVerificacaoService, VerificacaoService>();
 builder.Services.AddHttpClient<IPerplexityClient, PerplexityClient>();

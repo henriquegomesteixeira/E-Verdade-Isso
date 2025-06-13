@@ -1,40 +1,37 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 public class OpenAIService
 {
-    private readonly IConfiguration _config;
-    private readonly HttpClient _http;
+    private readonly OpenAIClient _client;
 
-    public OpenAIService(IConfiguration config)
+    public OpenAIService(OpenAIClient client)
     {
-        _config = config;
-        _http = new HttpClient();
+        _client = client;
     }
 
     public async Task<(List<string> Perguntas, string Dica)> GerarSugestoesEDicasAsync()
     {
-        var apiKey = _config["OPENAI_API_KEY"];
-        _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
-
-        var body = new
+        var prompt = new
         {
-            model = "gpt-3.5-turbo-0125",
+            model = "gpt-4o-mini",
             messages = new[]
             {
                 new {
                     role = "system",
-                    content = "Você é um assistente objetivo que sugere perguntas populares e dá dicas para identificar fake news. Use linguagem direta e profissional, sem brincadeiras."
+                    content = """
+                    Você é um especialista em fact-checking que identifica temas atuais propensos a fake news. 
+                    Crie perguntas curtas (máximo 4 palavras) sobre assuntos que frequentemente geram desinformação.
+                    """
                 },
                 new {
                     role = "user",
                     content = """
                     Me envie 5 perguntas extremamente curtas (até 3 palavras), seguindo esta ordem de temas:
-                    1. Esportes
-                    2. Política
-                    3. Economia
-                    4. Saúde
-                    5. Tecnologia
+                    Esportes
+                    Política
+                    Economia
+                    Saúde
+                    Tecnologia
 
                     Depois, me envie 1 dica ou curiosidade educativa com até 200 caracteres. A dica deve ser clara, contextualizada (com dados ou exemplos reais), mas curta o suficiente para caber em um único parágrafo compacto. Não escreva título.
 
@@ -45,23 +42,18 @@ public class OpenAIService
             temperature = 0.6
         };
 
-        var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
-        var response = await _http.PostAsync("https://api.openai.com/v1/chat/completions", content);
+        var respostaJson = await _client.EnviarPromptAsync(prompt);
 
-        if (!response.IsSuccessStatusCode)
-            return (new List<string> { "Erro ao consultar o ChatGPT" }, "");
-
-        var resposta = await response.Content.ReadAsStringAsync();
-        using var doc = JsonDocument.Parse(resposta);
+        using var doc = JsonDocument.Parse(respostaJson);
         var texto = doc.RootElement
-                       .GetProperty("choices")[0]
-                       .GetProperty("message")
-                       .GetProperty("content")
-                       .GetString() ?? "";
+            .GetProperty("choices")[0]
+            .GetProperty("message")
+            .GetProperty("content")
+            .GetString() ?? "";
 
         var linhas = texto
             .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-            .Select(l => l.Trim().TrimStart('-', '*', '1', '2', '3', '4', '5', '6', '7', '8', '.'))
+            .Select(l => l.Trim().TrimStart('-', '*', '.'))
             .Where(l => !string.IsNullOrWhiteSpace(l))
             .ToList();
 
@@ -69,8 +61,6 @@ public class OpenAIService
         var dica = (linhas.Skip(5).FirstOrDefault() ?? "")
             .Replace("Dica:", "", StringComparison.OrdinalIgnoreCase)
             .Trim();
-
-
 
         return (perguntas, dica);
     }
