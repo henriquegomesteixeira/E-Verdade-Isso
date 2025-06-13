@@ -33,6 +33,12 @@ namespace everdadeisso.Controllers
         [HttpPost]
         public IActionResult Index(string texto)
         {
+            if (texto?.Length > 2000)
+            {
+                TempData["Erro"] = "Seu texto ultrapassou o limite de 2.000 caracteres, tente resumir para algo mais curto e tente novamente.";
+                return RedirectToAction("Index");
+            }
+
             var id = Guid.NewGuid().ToString("N").Substring(0, 8);
 
             var pendente = new ResultadoViewModel
