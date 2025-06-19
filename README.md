@@ -2,6 +2,8 @@
 
 Uma plataforma inteligente de verificação de fatos que combate a desinformação usando IA avançada e fontes confiáveis em tempo real.
 
+![EVerdadeIsso](https://github.com/user-attachments/assets/acf5d9db-4968-4bc2-936b-ba7327f2891b)
+
 ## 🎯 Sobre o Projeto
 
 **É Verdade Isso?** é uma aplicação web desenvolvida para combater fake news e desinformação, oferecendo verificação instantânea de notícias e informações através de inteligência artificial conectada a fontes jornalísticas confiáveis.
